@@ -67,6 +67,7 @@ int Engine::Run()
 void Engine::Update()
 {
 	inputHandler.Frame();
+	camera.UpdateCamera();
 }
 
 void Engine::DrawScene()
@@ -76,7 +77,7 @@ void Engine::DrawScene()
 
 	deviceContext.Get()->ClearRenderTargetView(renderTargetView.Get(), backgroundColor);
 
-	//camera.BindBuffer(deviceContext.Get());
+	camera.BindBuffer(deviceContext.Get());
 
 	////그리기 Bind + Render
 	//BasicShader::BindVertexShader(deviceContext.Get());
@@ -94,21 +95,21 @@ void Engine::DrawScene()
 }
 
 bool Engine::InitializeScene() {
-	/*camera = Camera(
+	camera = Camera(
 		70.0f * MathUtil::Deg2Rad,
 		(float)Window::Width(),
 		(float)Window::Height(),
 		0.1f,
 		100.0f
-	);*/
+	);
 
 	//카메라 z위치 조정
-	//camera.SetPosition(0.0f, 0.0f, -20);
+	camera.SetPosition(0.0f, 0.0f, -20);
 
-	//if (camera.CreateBuffer(device.Get()) == false)
-	//{
-	//	return false;
-	//}
+	if (camera.CreateBuffer(device.Get()) == false)
+	{
+		return false;
+	}
 	//if (BasicShader::Compile(device.Get()) == false)
 	//{
 	//	return false;

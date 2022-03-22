@@ -1,4 +1,4 @@
-#include "MathUtils.h"
+#include "MathUtil.h"
 
 void MathUtil::Swapf(float& left, float& right)
 {

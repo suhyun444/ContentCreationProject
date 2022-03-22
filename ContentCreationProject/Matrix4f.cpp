@@ -3,7 +3,7 @@
 #include <Windows.h>
 
 #include <math.h>
-#include "MathUtils.h"
+#include "MathUtil.h"
 
 Matrix4f::Matrix4f()
 {

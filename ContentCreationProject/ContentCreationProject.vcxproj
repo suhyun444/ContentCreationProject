@@ -148,7 +148,7 @@
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Matrix4f.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Shader.h" />
@@ -164,7 +164,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="Matrix4f.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -172,6 +172,11 @@
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\shaders\BasicPS.hlsl" />
+    <FxCompile Include="..\shaders\BasicVS.hlsl" />
+    <FxCompile Include="..\shaders\ColorPS.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

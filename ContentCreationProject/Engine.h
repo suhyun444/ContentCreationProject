@@ -1,6 +1,8 @@
 #pragma once
 #include "DXApp.h"
 #include "InputHandler.h"
+#include "Camera.h"
+#include "MathUtil.h"
 
 class Engine : public DXApp
 {
@@ -22,5 +24,6 @@ private:
 	bool InitializeScene();
 
 	InputHandler inputHandler;
+	Camera camera;
 };
 
