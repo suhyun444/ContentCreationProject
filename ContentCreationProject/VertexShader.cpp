@@ -22,6 +22,7 @@ VertexShader::~VertexShader()
 
 }
 
+
 bool VertexShader::Compile(ID3D11Device* device)
 {
 	//정점 쉐이더 컴파일

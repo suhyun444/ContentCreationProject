@@ -9,7 +9,6 @@ class  VertexShader : public Shader
 {
 private:
 	ComPtr<ID3D11VertexShader> vertexShader;
-
 public:
 	VertexShader();
 	VertexShader(std::wstring filename);

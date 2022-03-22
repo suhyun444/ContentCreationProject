@@ -14,7 +14,6 @@ protected:
 	std::string profile;
 
 	ComPtr<ID3DBlob> shaderBuffer;
-
 public:
 	Shader();
 	Shader(std::wstring filename);

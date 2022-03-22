@@ -9,6 +9,7 @@ class PixelShader : public Shader
 {
 private:
 	ComPtr<ID3D11PixelShader> pixelShader;
+
 public:
 	PixelShader();
 	PixelShader(std::wstring filename);

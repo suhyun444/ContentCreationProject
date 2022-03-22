@@ -9,7 +9,6 @@ private:
 	static VertexShader vertexShader;
 	static PixelShader pixelShader;
 	static PixelShader colorPixelShader;
-
 public:
 	static bool Compile(ID3D11Device* device);
 	static bool Create(ID3D11Device* device);

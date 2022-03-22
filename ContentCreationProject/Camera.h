@@ -30,7 +30,7 @@ public:
 	void BindBuffer(ID3D11DeviceContext* deviceContext);
 
 	// Getter / Setter.
-	// Á¾È¾ºñ.
+	// Á¾È¾ºñ. 
 	float AspectRatio() { return (float)width / (float)height; }
 	void SetAspectRatio(float width, float height);
 
