@@ -1,5 +1,6 @@
 #pragma once
 #include "DXApp.h"
+#include "InputHandler.h"
 
 class Engine : public DXApp
 {
@@ -19,5 +20,7 @@ private:
 	int quadCount = 0;
 	int triangleCount = 0;
 	bool InitializeScene();
+
+	InputHandler inputHandler;
 };
 

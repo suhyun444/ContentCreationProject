@@ -35,6 +35,10 @@ bool Engine::Initialize()
 	{
 		return false;
 	}
+	if (inputHandler.Initialize(Window::Instance(), Window::WindowHandle(), Window::Width(), Window::Height()) == false)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -62,7 +66,7 @@ int Engine::Run()
 
 void Engine::Update()
 {
-
+	inputHandler.Frame();
 }
 
 void Engine::DrawScene()
