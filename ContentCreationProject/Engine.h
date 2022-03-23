@@ -3,6 +3,10 @@
 #include "InputHandler.h"
 #include "Camera.h"
 #include "MathUtil.h"
+#include "Quad.h"
+#include "QuadUV.h"
+#include "BasicShader.h"
+#include "TextureMappingShader.h"
 
 class Engine : public DXApp
 {
@@ -25,5 +29,7 @@ private:
 
 	InputHandler inputHandler;
 	Camera camera;
+	Quad quad;
+	QuadUV quadUV;
 };
 

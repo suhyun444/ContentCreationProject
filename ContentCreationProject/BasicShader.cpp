@@ -28,17 +28,10 @@ bool BasicShader::Create(ID3D11Device* device)
 	}
 	return true;
 }
-void BasicShader::BindVertexShader(ID3D11DeviceContext* deviceContext)
+void BasicShader::Bind(ID3D11DeviceContext* deviceContext)
 {
 	vertexShader.Bind(deviceContext);
-}
-void BasicShader::BindWhiteShader(ID3D11DeviceContext* deviceContext)
-{
 	pixelShader.Bind(deviceContext);
-}
-void BasicShader::BindColorShader(ID3D11DeviceContext* deviceContext)
-{
-	colorPixelShader.Bind(deviceContext);
 }
 
 ID3DBlob* BasicShader::ShaderBuffer()

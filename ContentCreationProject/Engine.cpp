@@ -68,29 +68,26 @@ void Engine::Update()
 {
 	inputHandler.Frame();
 	camera.UpdateCamera();
+	
+	quad.UpdateBuffers(deviceContext.Get());
+	quadUV.UpdateBuffers(deviceContext.Get());
 }
 
 void Engine::DrawScene()
 {
 	//배경 색
-	float backgroundColor[4] = { 0.1f,0.5f,0.1f,1.0f };
+	float backgroundColor[4] = {1.0f,1.0f,1.0f,1.0f };
 
 	deviceContext.Get()->ClearRenderTargetView(renderTargetView.Get(), backgroundColor);
 
 	camera.BindBuffer(deviceContext.Get());
 
-	////그리기 Bind + Render
-	//BasicShader::BindVertexShader(deviceContext.Get());
+	BasicShader::Bind(deviceContext.Get());
+	quad.RenderBuffers(deviceContext.Get());
 
-	////그리기
-	//BasicShader::BindWhiteShader(deviceContext.Get());
-	//mouseCursor.RenderBuffers(deviceContext.Get());
-	//meshHandler.RenderMeshs(deviceContext.Get());
+	TextureMappingShader::Bind(deviceContext.Get());
+	quadUV.RenderBuffers(deviceContext.Get());
 
-	////색깔 그리기
-	//BasicShader::BindColorShader(deviceContext.Get());
-
-	//FrontBuffer <-> BackBuffer 바꾸기
 	swapChain->Present(1, 0);
 }
 
@@ -110,14 +107,36 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	//if (BasicShader::Compile(device.Get()) == false)
-	//{
-	//	return false;
-	//}
-	//if (BasicShader::Create(device.Get()) == false)
-	//{
-	//	return false;
-	//}
+	if (BasicShader::Compile(device.Get()) == false)
+	{
+		return false;
+	}
+	if (BasicShader::Create(device.Get()) == false)
+	{
+		return false;
+	}
+	if (TextureMappingShader::Compile(device.Get(), L"player.png") == false)
+	{
+		return false;
+	}
+	if (TextureMappingShader::Create(device.Get()) == false)
+	{
+		return false;
+	}    
+	
+	if (quad.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
+	{
+		return false;
+	}
+	quad.SetPosition(-0.5f, 0.0f, 0.0f);
+	quad.SetScale(0.5f, 0.5f, 0.5f);
+
+	if (quadUV.InitializeBuffers(device.Get(), TextureMappingShader::ShaderBuffer()) == false)
+	{
+		return false;
+	}
+	quadUV.SetPosition(0.0f, 0.5f, 0.0f);
+	quadUV.SetScale(0.5f, 0.5f, 0.5f);
 
 	return true;
 }
