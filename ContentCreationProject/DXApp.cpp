@@ -68,6 +68,7 @@ bool DXApp::InitializeDirect3D()
 		return false;
 	}
 
+
 	ID3D11Texture2D* backbufferTexture;
 	result = swapChain.Get()->GetBuffer(
 		NULL,
@@ -106,5 +107,26 @@ bool DXApp::InitializeDirect3D()
 	viewport.MaxDepth = 1.0f;
 
 	deviceContext.Get()->RSSetViewports(1, &viewport);
+
+	D3D11_BLEND_DESC blendStateDesc{};
+	blendStateDesc.AlphaToCoverageEnable = false;
+	blendStateDesc.IndependentBlendEnable = false;
+	blendStateDesc.RenderTarget[0].BlendEnable = true;
+	blendStateDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendStateDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+	blendStateDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_DEST_ALPHA;
+	blendStateDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendStateDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	result = device.Get()->CreateBlendState(&blendStateDesc, blendState.GetAddressOf());
+	if (FAILED(result))
+	{
+		MessageBox(nullptr, L"블렌드 스테이트 생성 실패", L"오류", 0);
+		return false;
+	}
+	deviceContext.Get()->OMSetBlendState(blendState.Get(), nullptr, 0xFFFFFFFF);
+
 	return true;
 }

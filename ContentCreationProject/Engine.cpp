@@ -102,7 +102,6 @@ bool Engine::InitializeScene() {
 
 	//카메라 z위치 조정
 	camera.SetPosition(0.0f, 0.0f, -20);
-
 	if (camera.CreateBuffer(device.Get()) == false)
 	{
 		return false;

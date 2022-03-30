@@ -26,6 +26,7 @@ protected:
 	ComPtr<ID3D11DeviceContext> deviceContext;
 	ComPtr<IDXGISwapChain> swapChain;
 	ComPtr<ID3D11RenderTargetView> renderTargetView;
+	ComPtr<ID3D11BlendState> blendState;
 
 	D3D11_VIEWPORT viewport;
 };

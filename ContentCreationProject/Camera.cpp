@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera()
-	: Camera(70.0f, 1280.0f, 800.0f, 0.1f, 1000.0f)
+	: Camera(70.0f, 1280.0f, 720.0f, 0.1f, 1000.0f)
 {
 }
 
