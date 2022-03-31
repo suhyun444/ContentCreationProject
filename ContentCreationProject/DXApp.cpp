@@ -69,6 +69,7 @@ bool DXApp::InitializeDirect3D()
 	}
 
 
+
 	ID3D11Texture2D* backbufferTexture;
 	result = swapChain.Get()->GetBuffer(
 		NULL,
@@ -96,7 +97,7 @@ bool DXApp::InitializeDirect3D()
 
 	backbufferTexture->Release();
 	deviceContext.Get()->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), nullptr);
-	deviceContext.Get()->OMSetDepthStencilState(nullptr, 1);
+
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
@@ -128,5 +129,64 @@ bool DXApp::InitializeDirect3D()
 	}
 	deviceContext.Get()->OMSetBlendState(blendState.Get(), nullptr, 0xFFFFFFFF);
 
+	return true;
+}
+
+bool DXApp::ResizeBackBuffer()
+{
+	ID3D11RenderTargetView* IRTV = NULL;
+	deviceContext.Get()->OMSetRenderTargets(1, &IRTV, NULL); // NULL, NULL 설정
+	renderTargetView->Release();
+
+	HRESULT result = swapChain.Get()->ResizeBuffers(0, 0,0, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+
+	if (FAILED(result))
+	{
+		MessageBox(nullptr, L"백버퍼 리사이즈 실패", L"오류", 0);
+		return false;
+	}
+
+	ID3D11Texture2D* backbufferTexture;
+	result = swapChain.Get()->GetBuffer(
+		NULL,
+		__uuidof(ID3D11Texture2D),
+		(void**)(&backbufferTexture)
+	);
+
+	if (FAILED(result))
+	{
+		MessageBox(nullptr, L"백버퍼 정보 얻어오는데 실패", L"오류", 0);
+		return false;
+	}
+
+	result = device.Get()->CreateRenderTargetView(
+		backbufferTexture,
+		nullptr,
+		renderTargetView.GetAddressOf()
+	);
+
+	if (FAILED(result))
+	{
+		MessageBox(nullptr, L"렌더 타겟 뷰 생성 실패", L"오류", 0);
+		return false;
+	}
+
+	backbufferTexture->Release();
+	
+	deviceContext.Get()->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), nullptr);
+
+
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.Width = (float)Window::Width();
+	viewport.Height = (float)Window::Height();
+
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+
+	deviceContext.Get()->RSSetViewports(1, &viewport);
+
+	
+	backbufferTexture->Release();
 	return true;
 }

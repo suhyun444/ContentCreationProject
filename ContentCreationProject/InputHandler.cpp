@@ -153,7 +153,6 @@ void InputHandler::ProcessInput()
 	screenY = min(screenHeight, mouseY);
 	screenX = max(0, mouseX);
 	screenY = max(0, mouseY);
-	std::cout << screenX << " , " << screenY << "\n";
 	return;
 }
 bool InputHandler::IsKeyPressed(int state)

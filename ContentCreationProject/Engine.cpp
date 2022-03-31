@@ -31,6 +31,10 @@ bool Engine::Initialize()
 	{
 		return false;
 	}
+	if (DXApp::ResizeBackBuffer() == false)
+	{
+		return false;
+	}
 	if (InitializeScene() == false)
 	{
 		return false;
@@ -68,9 +72,10 @@ void Engine::Update()
 {
 	inputHandler.Frame();
 	camera.UpdateCamera();
-	
+
 	quad.UpdateBuffers(deviceContext.Get());
 	quadUV.UpdateBuffers(deviceContext.Get());
+
 }
 
 void Engine::DrawScene()
@@ -101,7 +106,7 @@ bool Engine::InitializeScene() {
 	);
 
 	//카메라 z위치 조정
-	camera.SetPosition(0.0f, 0.0f, -20);
+	camera.SetPosition(0.0f, 0.0f, -5.0f);
 	if (camera.CreateBuffer(device.Get()) == false)
 	{
 		return false;
@@ -127,15 +132,15 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	quad.SetPosition(-0.5f, 0.0f, 0.0f);
-	quad.SetScale(0.5f, 0.5f, 0.5f);
+	quad.SetPosition(0.0f, 0.0f, 0.0f);
+	quad.SetScale(1.0f, 1.0f, 1.0f);
 
 	if (quadUV.InitializeBuffers(device.Get(), TextureMappingShader::ShaderBuffer()) == false)
 	{
 		return false;
 	}
-	quadUV.SetPosition(0.0f, 0.5f, 0.0f);
-	quadUV.SetScale(0.5f, 0.5f, 0.5f);
+	quadUV.SetPosition(0.0f, 0.0f, 0.0f);
+	quadUV.SetScale(1.0f, 1.0f, 1.0f);
 
 	return true;
 }

@@ -5,7 +5,10 @@ cbuffer transform : register(b0)
 	// 4x4 행렬. 
 	matrix world; // 월드 행렬.
 };
-
+cbuffer camera : register(b1)
+{
+	matrix viewProjection;
+};
 // 정점 입력.
 struct vs_input
 {
@@ -26,6 +29,7 @@ vs_output main(vs_input input)
 {
 	vs_output output;
 	output.position = mul(input.position, world);
+	output.position = mul(output.position, viewProjection);
 	output.texCoord = input.texCoord;
 
 	return output;

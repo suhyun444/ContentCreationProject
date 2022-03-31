@@ -21,6 +21,7 @@ protected:
 	virtual void DrawScene() = 0;
 
 	bool InitializeDirect3D();
+	bool ResizeBackBuffer();
 
 	ComPtr<ID3D11Device> device;
 	ComPtr<ID3D11DeviceContext> deviceContext;
