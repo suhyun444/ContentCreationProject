@@ -3,9 +3,12 @@
 #include "Mesh.h"
 
 using namespace std;
-class CollisionHanler
+class CollisionHandler
 {
+public:
+	CollisionHandler();
 	vector<Mesh*> meshs;
+	void Add(Mesh* mesh);
 	void BoardPhase();
 	void Collide(Mesh* mesh1, Mesh* mesh2);
 };

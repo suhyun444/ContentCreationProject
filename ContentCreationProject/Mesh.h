@@ -4,15 +4,20 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include "TransformBuffer.h"
+#include <vector>
+#include "MathUtil.h"
 
 using Microsoft::WRL::ComPtr;
+using namespace std;
 
 class Mesh
 {
 public:
 	Mesh();
+	Mesh(float _mass);
 	virtual ~Mesh();
 
+	std::vector<Vector3f> GetVertics();
 	// 순수 가상 함수, = 인터페이스.
 	virtual bool InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer) = 0;
 
@@ -38,12 +43,19 @@ public:
 	void SetScale(float x, float y, float z);
 	void SetScale(Vector3f scale);
 
+	void SetCollisionScale(float x, float y, float z);
+	void SetCollisionScale(Vector3f scale);
+	
+	float Mass() { return mass; }
+
 
 protected:
 	int vertexCount;				// 정점 개수.
 	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
 	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
 
+	vector<std::pair<float,float>> verticsRadians;
+	Vector3f collisionScale;
 	// 트랜스폼 버퍼.
 	TransformBuffer transform;
 
@@ -51,4 +63,5 @@ protected:
 	Vector3f position;
 	Vector3f rotation;
 	Vector3f scale;
+	float mass;
 };

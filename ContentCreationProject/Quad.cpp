@@ -15,13 +15,17 @@ bool Quad::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
     // ¿Þ¼Õ ÁÂÇ¥°è.
     Vertex vertices[] =
     {
-        Vertex(-0.5f, -0.5f, 0.5f),
-        Vertex(-0.5f, 0.5f, 0.5f),
-        Vertex(0.5f, 0.5f, 0.5f),
-        Vertex(-0.5f, -0.5f, 0.5f),
-        Vertex(0.5f, 0.5f, 0.5f),
-        Vertex(0.5f, -0.5f, 0.5f)
+        Vertex(-0.5f, -0.5f, 0.0f),
+        Vertex(-0.5f, 0.5f, 0.0f),
+        Vertex(0.5f, 0.5f, 0.0f),
+        Vertex(-0.5f, -0.5f, 0.0f),
+        Vertex(0.5f, 0.5f, 0.0f),
+        Vertex(0.5f, -0.5f, 0.0f)
     };
+    verticsRadians.push_back({ atan2f(vertices[0].y, vertices[0].x),	sqrtf((vertices[0].x * vertices[0].x) + (vertices[0].y * vertices[0].y)) });
+    verticsRadians.push_back({ atan2f(vertices[1].y, vertices[1].x),	sqrtf((vertices[1].x * vertices[1].x) + (vertices[1].y * vertices[1].y)) });
+    verticsRadians.push_back({ atan2f(vertices[2].y, vertices[2].x),	sqrtf((vertices[2].x * vertices[2].x) + (vertices[2].y * vertices[2].y)) });
+    verticsRadians.push_back({ atan2f(vertices[5].y, vertices[5].x),	sqrtf((vertices[5].x * vertices[5].x) + (vertices[5].y * vertices[5].y)) });
 
     // Á¤Á¡ÀÇ °³¼ö.
     vertexCount = ARRAYSIZE(vertices);

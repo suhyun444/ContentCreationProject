@@ -5,14 +5,39 @@ Mesh::Mesh()
     transform(), // transform(TransformBuffer())¶û °°À½.
     position(Vector3f::Zero),
     rotation(Vector3f::Zero),
-    scale(Vector3f::One)
+    scale(Vector3f::One),
+    collisionScale(Vector3f::Zero),
+    mass(200)
 {
 }
-
+Mesh::Mesh(float _mass)
+    : vertexCount(0), vertexBuffer(0), inputLayout(0),
+    transform(), // transform(TransformBuffer())¶û °°À½.
+    position(Vector3f::Zero),
+    rotation(Vector3f::Zero),
+    scale(Vector3f::One),
+    collisionScale(Vector3f::Zero)
+{
+    mass = _mass;
+}
 Mesh::~Mesh()
 {
 }
-
+std::vector<Vector3f> Mesh::GetVertics()
+{
+    std::vector<Vector3f> returnVertics;
+    int vertexCount = verticsRadians.size();
+    for (int i = 0; i < vertexCount; i++)
+    {
+        float radian = verticsRadians[i].first + rotation.z * MathUtil::Deg2Rad;
+        Vector3f vertex = Vector3f(cosf(radian), sinf(radian), 0) * verticsRadians[i].second;
+        vertex.x *= scale.x;
+        vertex.y *= scale.y;
+        vertex += position;
+        returnVertics.push_back(vertex);
+    }
+    return returnVertics;
+}
 
 void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 {
@@ -72,4 +97,13 @@ void Mesh::SetScale(float x, float y, float z)
 void Mesh::SetScale(Vector3f scale)
 {
     this->scale = scale;
+}
+
+void Mesh::SetCollisionScale(float x, float y, float z)
+{
+    collisionScale = Vector3f(x, y, z);
+}
+void Mesh::SetCollisionScale(Vector3f scale)
+{
+    collisionScale = scale;
 }

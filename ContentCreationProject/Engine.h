@@ -7,6 +7,7 @@
 #include "QuadUV.h"
 #include "BasicShader.h"
 #include "TextureMappingShader.h"
+#include "CollisionHandler.h"
 
 class Engine : public DXApp
 {
@@ -28,6 +29,8 @@ private:
 	bool InitializeScene();
 
 	InputHandler inputHandler;
+	CollisionHandler collisionHandler;
+
 	Camera camera;
 	Quad quad;
 	QuadUV quadUV;
