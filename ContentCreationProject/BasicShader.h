@@ -1,17 +1,12 @@
 #pragma once
+#include "MeshShader.h"
 
-#include "VertexShader.h"
-#include "PixelShader.h"
-
-class BasicShader
+class BasicShader : public MeshShader
 {
-private:
-	static VertexShader vertexShader;
-	static PixelShader pixelShader;
 public:
-	static bool Compile(ID3D11Device* device);
-	static bool Create(ID3D11Device* device);
-	static void Bind(ID3D11DeviceContext* deviceContext);
-	static ID3DBlob* ShaderBuffer();
+	bool Compile(ID3D11Device* device, std::wstring textureFileName) override;
+	bool Compile(ID3D11Device* device) override;
+	bool Create(ID3D11Device* device) override;
+	void Bind(ID3D11DeviceContext* deviceContext) override;
 };
 

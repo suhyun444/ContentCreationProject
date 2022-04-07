@@ -1,10 +1,9 @@
 #include "TextureMappingShader.h"
 
-VertexShader TextureMappingShader::vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
-PixelShader TextureMappingShader::pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
-
 bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFileName)
 {
+	vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
+	pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
 	if (vertexShader.Compile(device) == false)
 	{
 		return false;
@@ -21,6 +20,10 @@ bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFil
 	}
 
 	return true;
+}
+bool TextureMappingShader::Compile(ID3D11Device* device)
+{
+	return false;
 }
 
 bool TextureMappingShader::Create(ID3D11Device* device)
@@ -49,9 +52,4 @@ void TextureMappingShader::Bind(ID3D11DeviceContext* deviceContext)
 	pixelShader.Bind(deviceContext);
 	pixelShader.BindTextures(deviceContext);
 	pixelShader.BindSamplerState(deviceContext);
-}
-
-ID3DBlob* TextureMappingShader::ShaderBuffer()
-{
-	return vertexShader.ShaderBuffer();
 }

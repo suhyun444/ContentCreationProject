@@ -8,6 +8,7 @@
 #include "BasicShader.h"
 #include "TextureMappingShader.h"
 #include "CollisionHandler.h"
+#include "MeshHandler.h"
 
 class Engine : public DXApp
 {
@@ -30,6 +31,7 @@ private:
 
 	InputHandler inputHandler;
 	CollisionHandler collisionHandler;
+	MeshHandler meshHandler;
 
 	Camera camera;
 	Quad quad;

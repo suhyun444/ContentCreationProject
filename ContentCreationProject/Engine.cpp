@@ -73,8 +73,7 @@ void Engine::Update()
 	inputHandler.Frame();
 	camera.UpdateCamera();
 
-	quad.UpdateBuffers(deviceContext.Get());
-	quadUV.UpdateBuffers(deviceContext.Get());
+	meshHandler.UpdateBuffer(deviceContext.Get());
 	collisionHandler.BoardPhase();
 
 	if (inputHandler.IsKeyPressed(DIK_D))
@@ -105,11 +104,7 @@ void Engine::DrawScene()
 
 	camera.BindBuffer(deviceContext.Get());
 
-	BasicShader::Bind(deviceContext.Get());
-	quad.RenderBuffers(deviceContext.Get());
-
-	TextureMappingShader::Bind(deviceContext.Get());
-	quadUV.RenderBuffers(deviceContext.Get());
+	meshHandler.RenderBuffer(deviceContext.Get());
 
 	swapChain->Present(1, 0);
 }
@@ -129,32 +124,17 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	if (BasicShader::Compile(device.Get()) == false)
-	{
-		return false;
-	}
-	if (BasicShader::Create(device.Get()) == false)
-	{
-		return false;
-	}
-	if (TextureMappingShader::Compile(device.Get(), L"player.png") == false)
-	{
-		return false;
-	}
-	if (TextureMappingShader::Create(device.Get()) == false)
-	{
-		return false;
-	}    
 	
-	if (quad.InitializeBuffers(device.Get(), BasicShader::ShaderBuffer()) == false)
+	if (quad.InitializeBuffers(device.Get()) == false)
 	{
 		return false;
 	}
 	quad.SetPosition(3.0f, 0.0f, 0.0f);
 	quad.SetScale(1.0f, 1.0f, 1.0f);
 	collisionHandler.Add(&quad);
+	meshHandler.Add(&quad);
 
-	if (quadUV.InitializeBuffers(device.Get(), TextureMappingShader::ShaderBuffer()) == false)
+	if (quadUV.InitializeBuffers(device.Get(), L"Player.png") == false)
 	{
 		return false;
 	}
@@ -162,6 +142,7 @@ bool Engine::InitializeScene() {
 	quadUV.SetScale(1.0f, 1.0f, 1.0f);
 	quadUV.SetCollisionScale(0.2f, 1.0f, 0.0f);
 	collisionHandler.Add(&quadUV);
+	meshHandler.Add(&quadUV);
 
 	return true;
 }

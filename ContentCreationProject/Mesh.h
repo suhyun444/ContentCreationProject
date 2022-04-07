@@ -6,7 +6,9 @@
 #include "TransformBuffer.h"
 #include <vector>
 #include "MathUtil.h"
-
+//#include "MeshShader.h"
+#include "BasicShader.h"
+#include "TextureMappingShader.h"
 using Microsoft::WRL::ComPtr;
 using namespace std;
 
@@ -19,7 +21,8 @@ public:
 
 	std::vector<Vector3f> GetVertics();
 	// 순수 가상 함수, = 인터페이스.
-	virtual bool InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer) = 0;
+	virtual bool InitializeBuffers(ID3D11Device* device) = 0;
+	virtual bool InitializeBuffers(ID3D11Device* device, std::wstring textureFileName) = 0;
 
 	// Render = (Bind + Draw)
 	virtual void RenderBuffers(ID3D11DeviceContext* deviceContext);
@@ -50,6 +53,7 @@ public:
 
 
 protected:
+	MeshShader* meshShader;
 	int vertexCount;				// 정점 개수.
 	ComPtr<ID3D11Buffer> vertexBuffer;		// 정점 버퍼.
 	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.

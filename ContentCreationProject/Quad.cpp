@@ -2,14 +2,28 @@
 
 Quad::Quad()
 {
+    meshShader = &basicShader;
 }
 
 Quad::~Quad()
 {
 }
-
-bool Quad::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
+bool Quad::InitializeBuffers(ID3D11Device* device, std::wstring textureFileName)
 {
+    return false;
+}
+
+bool Quad::InitializeBuffers(ID3D11Device* device)
+{
+    if (meshShader->Compile(device) == false)
+    {
+        return false;
+    }
+    if (meshShader->Create(device) == false)
+    {
+        return false;
+    }
+    ID3DBlob* vertexShaderBuffer = meshShader->ShaderBuffer();
     // 정점 데이터 만들기.
     // 정점(Vertex) 배열.
     // 왼손 좌표계.

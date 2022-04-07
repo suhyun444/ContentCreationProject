@@ -3,14 +3,27 @@
 
 QuadUV::QuadUV()
 {
+    meshShader = &textureMappingShader;
 }
 
 QuadUV::~QuadUV()
 {
 }
-
-bool QuadUV::InitializeBuffers(ID3D11Device* device, ID3DBlob* vertexShaderBuffer)
+bool QuadUV::InitializeBuffers(ID3D11Device* device)
 {
+    return false;
+}
+bool QuadUV::InitializeBuffers(ID3D11Device* device, std::wstring textureFileName)
+{
+    if (meshShader->Compile(device, textureFileName) == false)
+    {
+        return false;
+    }
+    if (meshShader->Create(device) == false)
+    {
+        return false;
+    }
+    ID3DBlob* vertexShaderBuffer = meshShader->ShaderBuffer();
     // 정점 데이터 만들기.
     // 정점(Vertex) 배열.
     // 왼손 좌표계.

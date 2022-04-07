@@ -160,6 +160,8 @@
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="Matrix4f.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshHandler.h" />
+    <ClInclude Include="MeshShader.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="QuadUV.h" />
@@ -186,6 +188,8 @@
     <ClCompile Include="MathUtil.cpp" />
     <ClCompile Include="Matrix4f.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshHandler.cpp" />
+    <ClCompile Include="MeshShader.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="QuadUV.cpp" />

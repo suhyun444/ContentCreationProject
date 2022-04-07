@@ -41,6 +41,7 @@ std::vector<Vector3f> Mesh::GetVertics()
 
 void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 {
+    meshShader->Bind(deviceContext);
     BindBuffers(deviceContext);
     DrawBuffers(deviceContext);
 }

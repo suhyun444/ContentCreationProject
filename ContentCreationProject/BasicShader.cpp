@@ -1,10 +1,13 @@
 #include "BasicShader.h"
 
-VertexShader BasicShader::vertexShader = VertexShader(L"..//shaders//BasicVS.hlsl", "main", "vs_5_0");
-PixelShader BasicShader::pixelShader = PixelShader(L"..//shaders//BasicPS.hlsl", "main", "ps_5_0");
-
+bool BasicShader::Compile(ID3D11Device* device, std::wstring textureFileName)
+{
+	return false;
+}
 bool BasicShader::Compile(ID3D11Device* device)
 {
+	vertexShader = VertexShader(L"..//shaders//BasicVS.hlsl", "main", "vs_5_0");
+	pixelShader = PixelShader(L"..//shaders//BasicPS.hlsl", "main", "ps_5_0");
 	if (vertexShader.Compile(device) == false)
 	{
 		return false;
@@ -32,9 +35,4 @@ void BasicShader::Bind(ID3D11DeviceContext* deviceContext)
 {
 	vertexShader.Bind(deviceContext);
 	pixelShader.Bind(deviceContext);
-}
-
-ID3DBlob* BasicShader::ShaderBuffer()
-{
-	return vertexShader.ShaderBuffer();
 }
