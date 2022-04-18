@@ -111,6 +111,9 @@
     <ClInclude Include="MeshHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputHandler.cpp">
@@ -189,6 +192,9 @@
       <Filter>소스 파일\Shader</Filter>
     </ClCompile>
     <ClCompile Include="MeshHandler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

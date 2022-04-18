@@ -1,6 +1,7 @@
 #include <d3dcompiler.h>
 
 #include "PixelShader.h"
+#include <iostream>
 
 PixelShader::PixelShader()
     : Shader()
@@ -110,12 +111,10 @@ bool PixelShader::LoadTexture(ID3D11Device* device, std::wstring filename)
 
 void PixelShader::BindTextures(ID3D11DeviceContext* deviceContext)
 {
-    for (int ix = 0; ix < textures.size(); ++ix)
-    {
-        deviceContext->PSSetShaderResources(
-            ix,
-            1,
-            textures[ix].textureResource.GetAddressOf()
-        );
-    }
+    int spriteType = 0;
+    deviceContext->PSSetShaderResources(
+        0,
+        1,
+        textures[spriteType].textureResource.GetAddressOf()
+    );
 }

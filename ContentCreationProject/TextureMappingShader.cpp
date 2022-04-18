@@ -14,11 +14,14 @@ bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFil
 	}
 
 	// 텍스쳐 로드.
+	if (pixelShader.LoadTexture(device, L"Player1.png") == false)
+	{
+		return false;
+	}
 	if (pixelShader.LoadTexture(device, textureFileName) == false)
 	{
 		return false;
 	}
-
 	return true;
 }
 bool TextureMappingShader::Compile(ID3D11Device* device)
