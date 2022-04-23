@@ -65,12 +65,39 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		{
 			return;
 		}
-		separation = distance - (ra + rb);
+		separation = (ra + rb) - distance;
 		if (separation < minSeparation)
 		{
 			minSeparation = separation;
 			MTV = t;
 		}
 	}
-	std::cout << "Collision" << rand() % 100 << "\n";
+	float xDiff = fabsf(mesh1->Position().x - mesh2->Position().x);
+	float yDiff = fabsf(mesh1->Position().y - mesh2->Position().y);
+
+	//움직이지 않는 물체 한개 정하기
+	int type = -1;
+	if (mesh1->Mass() == 0)type = 0;
+	if (mesh2->Mass() == 0)type = 1;
+	if (type == -1) type = (mesh1->Mass() > mesh2->Mass()) ? 0 : 1;
+	//가로 절반크기보다 크면 좌우로 밀기
+	//세로 절반크기보다 크면 상하로 밀기
+	if (type == 0)
+	{
+		if (xDiff > mesh1->Scale().x / 2)
+			MTV.y = 0;
+		if(yDiff > mesh1->Scale().y / 2)
+			MTV.x = 0;
+		MTV.Normalized();
+		mesh2->SetPosition(mesh2->Position() - MTV * minSeparation);
+	}
+	else
+	{
+		if (xDiff > mesh2->Scale().x / 2)
+			MTV.y = 0;
+		if (yDiff > mesh2->Scale().y / 2)
+			MTV.x = 0;
+		MTV.Normalized();
+		mesh1->SetPosition(mesh1->Position() + MTV * minSeparation);
+	}
 }
