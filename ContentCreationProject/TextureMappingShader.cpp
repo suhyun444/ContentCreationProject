@@ -49,10 +49,10 @@ bool TextureMappingShader::Create(ID3D11Device* device)
 	return true;
 }
 
-void TextureMappingShader::Bind(ID3D11DeviceContext* deviceContext)
+void TextureMappingShader::Bind(ID3D11DeviceContext* deviceContext, std::string frameName)
 {
 	vertexShader.Bind(deviceContext);
 	pixelShader.Bind(deviceContext);
-	pixelShader.BindTextures(deviceContext);
+	pixelShader.BindTextures(deviceContext,frameName);
 	pixelShader.BindSamplerState(deviceContext);
 }

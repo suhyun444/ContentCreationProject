@@ -31,7 +31,7 @@ bool BasicShader::Create(ID3D11Device* device)
 	}
 	return true;
 }
-void BasicShader::Bind(ID3D11DeviceContext* deviceContext)
+void BasicShader::Bind(ID3D11DeviceContext* deviceContext, std::string frameName)
 {
 	vertexShader.Bind(deviceContext);
 	pixelShader.Bind(deviceContext);

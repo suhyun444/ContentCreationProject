@@ -7,6 +7,7 @@ using Microsoft::WRL::ComPtr;
 
 #include "Texture.h"
 #include <vector>
+#include <map>
 
 class PixelShader : public Shader
 {
@@ -24,13 +25,13 @@ public:
 	void BindSamplerState(ID3D11DeviceContext* deviceContext);
 
 	bool LoadTexture(ID3D11Device* device, std::wstring filename);
-	void BindTextures(ID3D11DeviceContext* deviceContext);
+	void BindTextures(ID3D11DeviceContext* deviceContext, std::string frameName);
 
 	ID3D11PixelShader* GetPixelShader() { return pixelShader.Get(); }
 
 private:
 	ComPtr<ID3D11PixelShader> pixelShader;
 
-	std::vector<Texture> textures;
+	std::map<std::string,Texture> textures;
 	ComPtr<ID3D11SamplerState> samplerState;
 };

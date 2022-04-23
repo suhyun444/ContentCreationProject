@@ -49,6 +49,7 @@ public:
 	void SetCollisionScale(float x, float y, float z);
 	void SetCollisionScale(Vector3f scale);
 	
+	void SetMass(float mass);
 	float Mass() { return mass; }
 
 
@@ -67,5 +68,7 @@ protected:
 	Vector3f position;
 	Vector3f rotation;
 	Vector3f scale;
+	Vector3f velocity;
 	float mass;
+	std::string curAnimationState;
 };

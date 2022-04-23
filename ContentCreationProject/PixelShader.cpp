@@ -104,17 +104,22 @@ bool PixelShader::LoadTexture(ID3D11Device* device, std::wstring filename)
     {
         return false;
     }
-    textures.push_back(texture);
+    std::string frameName;
+    frameName.assign(filename.begin(), filename.end());
+    textures.insert(std::make_pair(frameName,texture));
 
     return true;
 }
 
-void PixelShader::BindTextures(ID3D11DeviceContext* deviceContext)
+void PixelShader::BindTextures(ID3D11DeviceContext* deviceContext, std::string frameName)
 {
-    int spriteType = 0;
+    auto iter = textures.find(frameName);
+    if (iter == textures.end())
+        return;
+
     deviceContext->PSSetShaderResources(
         0,
         1,
-        textures[spriteType].textureResource.GetAddressOf()
+        textures[frameName].textureResource.GetAddressOf()
     );
 }

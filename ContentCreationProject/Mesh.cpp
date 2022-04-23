@@ -31,8 +31,17 @@ std::vector<Vector3f> Mesh::GetVertics()
     {
         float radian = verticsRadians[i].first + rotation.z * MathUtil::Deg2Rad;
         Vector3f vertex = Vector3f(cosf(radian), sinf(radian), 0) * verticsRadians[i].second;
-        vertex.x *= scale.x;
-        vertex.y *= scale.y;
+        if (collisionScale.x == 0 && collisionScale.y == 0)
+        {
+            vertex.x *= scale.x;
+            vertex.y *= scale.y;
+
+        }
+        else
+        {
+            vertex.x *= collisionScale.x;
+            vertex.y *= collisionScale.y;
+        }
         vertex += position;
         returnVertics.push_back(vertex);
     }
@@ -41,7 +50,7 @@ std::vector<Vector3f> Mesh::GetVertics()
 
 void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 {
-    meshShader->Bind(deviceContext);
+    meshShader->Bind(deviceContext, curAnimationState);
     BindBuffers(deviceContext);
     DrawBuffers(deviceContext);
 }
@@ -107,4 +116,8 @@ void Mesh::SetCollisionScale(float x, float y, float z)
 void Mesh::SetCollisionScale(Vector3f scale)
 {
     collisionScale = scale;
+}
+void Mesh::SetMass(float mass)
+{
+    this->mass = mass;
 }
