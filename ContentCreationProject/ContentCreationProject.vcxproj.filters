@@ -34,11 +34,20 @@
     <Filter Include="쉐이더 파일">
       <UniqueIdentifier>{74990e1b-f7ac-4da9-a24c-48a2670783bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Mesh">
+      <UniqueIdentifier>{db31afa3-387f-4ef0-808a-34b36e7d3017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Handler">
+      <UniqueIdentifier>{5817ded7-bc20-4059-a5f8-55b414c2197a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Mesh">
+      <UniqueIdentifier>{321aedb7-54b7-4a3f-8606-864ab4549941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Handler">
+      <UniqueIdentifier>{45a5e230-f7d7-411a-bfc3-d56e5be90b12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputHandler.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="BasicShader.h">
       <Filter>헤더 파일\Shader</Filter>
     </ClInclude>
@@ -90,35 +99,41 @@
     <ClInclude Include="ResourceLoader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="QuadUV.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Quad.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionHandler.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="TextureMappingShader.h">
       <Filter>헤더 파일\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshHandler.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="AnimationState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>헤더 파일\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Quad.h">
+      <Filter>헤더 파일\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadUV.h">
+      <Filter>헤더 파일\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshShader.h">
+      <Filter>헤더 파일\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>헤더 파일\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>헤더 파일\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshHandler.h">
+      <Filter>헤더 파일\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="InputHandler.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="MathUtil.cpp">
       <Filter>소스 파일\Math</Filter>
     </ClCompile>
@@ -173,28 +188,37 @@
     <ClCompile Include="ResourceLoader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="QuadUV.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Quad.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionHandler.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="TextureMappingShader.cpp">
       <Filter>소스 파일\Shader</Filter>
     </ClCompile>
     <ClCompile Include="MeshShader.cpp">
       <Filter>소스 파일\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="MeshHandler.cpp">
+    <ClCompile Include="AnimationState.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationState.cpp">
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Quad.cpp">
+      <Filter>소스 파일\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadUV.cpp">
+      <Filter>소스 파일\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>소스 파일\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>소스 파일\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>소스 파일\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshHandler.cpp">
+      <Filter>소스 파일\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

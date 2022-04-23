@@ -4,11 +4,12 @@
 #include "Camera.h"
 #include "MathUtil.h"
 #include "Quad.h"
-#include "QuadUV.h"
 #include "BasicShader.h"
 #include "TextureMappingShader.h"
 #include "CollisionHandler.h"
 #include "MeshHandler.h"
+#include "Player.h"
+#include "Timer.h"
 
 class Engine : public DXApp
 {
@@ -32,8 +33,10 @@ private:
 	InputHandler inputHandler;
 	CollisionHandler collisionHandler;
 	MeshHandler meshHandler;
-
+	Timer timer;
 	Camera camera;
+
+	Player player;
 	Quad quad;
 	QuadUV quadUV;
 };

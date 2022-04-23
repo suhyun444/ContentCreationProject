@@ -1,6 +1,6 @@
 #pragma once
 #include "Mesh.h"
-//#include "TextureMappingShader.h"
+#include "TextureMappingShader.h"
 
 class QuadUV : public Mesh
 {

@@ -43,6 +43,10 @@ bool Engine::Initialize()
 	{
 		return false;
 	}
+	if (timer.Initialize() == false)
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -70,29 +74,17 @@ int Engine::Run()
 
 void Engine::Update()
 {
+	timer.Frame();
 	inputHandler.Frame();
 	camera.UpdateCamera();
 
-	meshHandler.UpdateBuffer(deviceContext.Get());
+	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
+	player.UpdateVelocity(x);
+	if (inputHandler.IsKeyDown(DIK_SPACE))player.Jump();
+	player.Update(timer.GetTime());
+
 	collisionHandler.BoardPhase();
-
-	if (inputHandler.IsKeyPressed(DIK_D))
-	{
-		quad.SetPosition(Vector3f(quad.Position().x + 0.1f, quad.Position().y, 0.0f));
-	}
-	if (inputHandler.IsKeyPressed(DIK_A))
-	{
-		quad.SetPosition(Vector3f(quad.Position().x - 0.1f, quad.Position().y, 0.0f));
-	}
-	if (inputHandler.IsKeyPressed(DIK_W))
-	{
-		quad.SetPosition(Vector3f(quad.Position().x, quad.Position().y + 0.1f, 0.0f));
-	}
-	if (inputHandler.IsKeyPressed(DIK_S))
-	{
-		quad.SetPosition(Vector3f(quad.Position().x, quad.Position().y - 0.1f, 0.0f));
-	}
-
+	meshHandler.UpdateBuffer(deviceContext.Get());
 }
 
 void Engine::DrawScene()
@@ -129,20 +121,21 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	quad.SetPosition(3.0f, 0.0f, 0.0f);
-	quad.SetScale(1.0f, 1.0f, 1.0f);
+	quad.SetPosition(0.0f, -3.0f, 0.0f);
+	quad.SetScale(10.0f, 1.0f, 1.0f);
+	quad.SetMass(0);
 	collisionHandler.Add(&quad);
 	meshHandler.Add(&quad);
 
-	if (quadUV.InitializeBuffers(device.Get(), L"Player.png") == false)
+	if (player.InitializeBuffers(device.Get(), L"Player.png") == false)
 	{
 		return false;
 	}
-	quadUV.SetPosition(0.0f, 0.0f, 0.0f);
-	quadUV.SetScale(1.0f, 1.0f, 1.0f);
-	quadUV.SetCollisionScale(0.2f, 1.0f, 0.0f);
-	collisionHandler.Add(&quadUV);
-	meshHandler.Add(&quadUV);
+	player.SetPosition(0.0f, -1.0f, 0.0f);
+	player.SetScale(1.0f, 1.0f, 1.0f);
+	player.SetCollisionScale(0.2f, 0.85f, 0.0f);
+	collisionHandler.Add(&player);
+	meshHandler.Add(&player);
 
 	return true;
 }

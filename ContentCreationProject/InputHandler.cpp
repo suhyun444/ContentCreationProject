@@ -157,6 +157,14 @@ void InputHandler::ProcessInput()
 }
 bool InputHandler::IsKeyPressed(int state)
 {
+	if (keyboardState[state] & 0x80)
+	{
+		return true;
+	}
+	return false;
+}
+bool InputHandler::IsKeyDown(int state)
+{
 	//state == 	DIK_"keycode"
 	if (keyboardIsPressed[state] && keyboardState[state] & 0x80)
 	{

@@ -42,5 +42,6 @@ public:
 	bool IsMouseButtonPressed(int index);
 	bool IsMouseButtonUp(int index);
 	bool IsKeyPressed(int state);
+	bool IsKeyDown(int state);
 };
 
