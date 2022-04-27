@@ -21,6 +21,7 @@ public:
 
 	Delegate<> collideCallback;
 	std::vector<Vector3f> GetVertics();
+	virtual void Collide(Mesh* collision);
 	virtual bool InitializeBuffers(ID3D11Device* device) = 0;
 	virtual bool InitializeBuffers(ID3D11Device* device, std::wstring textureFileName) = 0;
 
@@ -49,6 +50,8 @@ public:
 	void SetMass(float mass);
 	float Mass() { return mass; }
 
+	void SetTag(string tag);
+	string Tag() { return tag; }
 
 protected:
 	MeshShader* meshShader;
@@ -68,4 +71,5 @@ protected:
 	Vector3f velocity;
 	float mass;
 	std::string curAnimationState;
+	string tag;
 };

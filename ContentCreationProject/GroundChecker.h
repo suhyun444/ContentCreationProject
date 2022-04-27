@@ -8,5 +8,6 @@ public:
 	GroundChecker();
 	~GroundChecker();
 	void InitializeCollideCallback(std::function<void()> func);
+	void Collide(Mesh* collision) override;
 };
 

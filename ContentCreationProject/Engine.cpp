@@ -126,6 +126,7 @@ bool Engine::InitializeScene() {
 	quad.SetMass(0);
 	collisionHandler.Add(&quad);
 	meshHandler.Add(&quad);
+	quad.SetTag("Ground");
 
 	if (player.InitializeBuffers(device.Get(), L"Player.png") == false)
 	{
@@ -141,7 +142,11 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	
+	player.groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, &player));
+	player.groundChecker.SetScale(0.0f, 0.0f, 0.0f);
+	player.groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
+	collisionHandler.Add(&player.groundChecker);
+	meshHandler.Add(&player.groundChecker);
 
 	return true;
 }

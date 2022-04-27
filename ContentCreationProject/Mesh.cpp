@@ -7,7 +7,8 @@ Mesh::Mesh()
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
     collisionScale(Vector3f::Zero),
-    mass(200)
+    mass(200),
+    tag("default")
 {
 }
 Mesh::Mesh(float _mass)
@@ -16,12 +17,17 @@ Mesh::Mesh(float _mass)
     position(Vector3f::Zero),
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
-    collisionScale(Vector3f::Zero)
+    collisionScale(Vector3f::Zero),
+    tag("default")
 {
     mass = _mass;
 }
 Mesh::~Mesh()
 {
+}
+void Mesh::Collide(Mesh* collision)
+{
+
 }
 std::vector<Vector3f> Mesh::GetVertics()
 {
@@ -120,4 +126,8 @@ void Mesh::SetCollisionScale(Vector3f scale)
 void Mesh::SetMass(float mass)
 {
     this->mass = mass;
+}
+void Mesh::SetTag(string tag)
+{
+    this->tag = tag;
 }

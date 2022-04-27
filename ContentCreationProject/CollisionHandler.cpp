@@ -100,4 +100,6 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		MTV.Normalized();
 		mesh1->SetPosition(mesh1->Position() + MTV * minSeparation);
 	}
+	mesh1->Collide(mesh2);
+	mesh2->Collide(mesh1);
 }
