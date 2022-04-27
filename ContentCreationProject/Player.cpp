@@ -2,6 +2,7 @@
 Player::Player()
 {
 	curAnimationState = "Player.png";
+	groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, this));
 }
 Player::~Player()
 {
@@ -21,5 +22,11 @@ void Player::UpdateVelocity(int x)
 }
 void Player::Jump()
 {
+	if (!canJump)return;
+	canJump = false;
 	velocity.y = 12.0f;
+}
+void Player::GroundCheck()
+{
+	canJump = true;
 }

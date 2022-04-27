@@ -6,7 +6,7 @@
 #include "TransformBuffer.h"
 #include <vector>
 #include "MathUtil.h"
-//#include "MeshShader.h"
+#include "Delegate.h"
 #include "BasicShader.h"
 #include "TextureMappingShader.h"
 using Microsoft::WRL::ComPtr;
@@ -19,21 +19,18 @@ public:
 	Mesh(float _mass);
 	virtual ~Mesh();
 
+	Delegate<> collideCallback;
 	std::vector<Vector3f> GetVertics();
-	// 순수 가상 함수, = 인터페이스.
 	virtual bool InitializeBuffers(ID3D11Device* device) = 0;
 	virtual bool InitializeBuffers(ID3D11Device* device, std::wstring textureFileName) = 0;
 
-	// Render = (Bind + Draw)
 	virtual void RenderBuffers(ID3D11DeviceContext* deviceContext);
 
-	// 드로우/업데이트 관련 편의 함수.
 	virtual void BindBuffers(ID3D11DeviceContext* deviceContext);
 	virtual void DrawBuffers(ID3D11DeviceContext* deviceContext);
 
 	virtual void UpdateBuffers(ID3D11DeviceContext* deviceContext);
 
-	// Getter / Setter
 	Vector3f& Position() { return position; }
 	void SetPosition(float x, float y, float z);
 	void SetPosition(Vector3f position);

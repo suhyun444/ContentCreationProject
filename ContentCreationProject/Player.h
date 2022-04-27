@@ -1,5 +1,7 @@
 #pragma once
 #include "QuadUV.h"
+#include "GroundChecker.h"
+
 class Player : public QuadUV
 {
 public:
@@ -8,7 +10,9 @@ public:
 	void Update(float deltaTime);
 	void UpdateVelocity(int x);
 	void Jump();
+	void GroundCheck();
+	GroundChecker groundChecker;
 private:
-	bool isJump = false;
+	bool canJump = false;
 };
 

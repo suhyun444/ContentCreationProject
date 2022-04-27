@@ -137,5 +137,11 @@ bool Engine::InitializeScene() {
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);
 
+	if (player.groundChecker.InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	
+
 	return true;
 }
