@@ -163,14 +163,17 @@ bool Engine::InitializeScene() {
 	meshHandler.Add(&quad);
 	quad.SetTag("Ground");
 
-	if (player.InitializeBuffers(device.Get(), L"Player.png") == false)
+	std::vector<std::wstring> playerSpriteSheet;
+	for (int i = 1; i < 9; i++)playerSpriteSheet.push_back(L"PlayerIdle" + to_wstring(i) + L".png");
+	for (int i = 1; i < 10; i++)playerSpriteSheet.push_back(L"PlayerWalk" + to_wstring(i) + L".png");
+	if (player.InitializeBuffers(device.Get(), playerSpriteSheet) == false)
 	{
 		return false;
 	}
 	player.SetPosition(0.0f, -1.0f, 0.0f);
 	player.SetScale(1.0f, 1.0f, 1.0f);
 	player.SetRotation(0.0f, 0.0f, 0.0f);
-	player.SetCollisionScale(0.2f, 0.85f, 0.0f);
+	player.SetCollisionScale(0.8f, 1.0f, 0.0f);
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);
 
@@ -178,7 +181,7 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	player.groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, &player));
+	//player.groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, &player));
 	player.groundChecker.SetScale(0.0f, 0.0f, 0.0f);
 	player.groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	collisionHandler.Add(&player.groundChecker);

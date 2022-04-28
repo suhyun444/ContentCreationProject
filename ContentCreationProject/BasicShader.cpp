@@ -1,6 +1,6 @@
 #include "BasicShader.h"
 
-bool BasicShader::Compile(ID3D11Device* device, std::wstring textureFileName)
+bool BasicShader::Compile(ID3D11Device* device, std::vector<std::wstring> textureFileNames)
 {
 	return false;
 }

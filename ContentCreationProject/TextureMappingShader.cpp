@@ -1,6 +1,6 @@
 #include "TextureMappingShader.h"
 
-bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFileName)
+bool TextureMappingShader::Compile(ID3D11Device* device, std::vector<std::wstring> textureFileNames)
 {
 	vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
 	pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
@@ -13,14 +13,12 @@ bool TextureMappingShader::Compile(ID3D11Device* device, std::wstring textureFil
 		return false;
 	}
 
-	// 텍스쳐 로드.
-	if (pixelShader.LoadTexture(device, L"Player1.png") == false)
+	for (int i = 0; i < textureFileNames.size(); i++)
 	{
-		return false;
-	}
-	if (pixelShader.LoadTexture(device, textureFileName) == false)
-	{
-		return false;
+		if (pixelShader.LoadTexture(device, textureFileNames[i]) == false)
+		{
+			return false;
+		}
 	}
 	return true;
 }

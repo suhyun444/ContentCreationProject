@@ -23,7 +23,7 @@ public:
 	std::vector<Vector3f> GetVertics();
 	virtual void Collide(Mesh* collision);
 	virtual bool InitializeBuffers(ID3D11Device* device) = 0;
-	virtual bool InitializeBuffers(ID3D11Device* device, std::wstring textureFileName) = 0;
+	virtual bool InitializeBuffers(ID3D11Device* device, std::vector<std::wstring> textureFileNames) = 0;
 
 	virtual void RenderBuffers(ID3D11DeviceContext* deviceContext);
 

@@ -5,9 +5,10 @@ class AnimationState
 {
 public:
 	//spriteName / frameRate
-	AnimationState(std::string frames[],int frameRates[]);
+	AnimationState();
+	AnimationState(std::string frames[],float frameRates[]);
 	~AnimationState();
-	std::vector<std::pair<std::string, int>> frames;
+	std::vector<std::pair<std::string, float>> frames;
 	
 };
 

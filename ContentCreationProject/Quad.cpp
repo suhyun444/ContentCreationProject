@@ -8,7 +8,7 @@ Quad::Quad()
 Quad::~Quad()
 {
 }
-bool Quad::InitializeBuffers(ID3D11Device* device, std::wstring textureFileName)
+bool Quad::InitializeBuffers(ID3D11Device* device, std::vector<std::wstring> textureFileNames)
 {
     return false;
 }
