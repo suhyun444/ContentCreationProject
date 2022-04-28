@@ -11,8 +11,10 @@ public:
 	void UpdateVelocity(int x);
 	void Jump();
 	void GroundCheck();
+	bool GetIsLeft() { return isLeft; }
 	GroundChecker groundChecker;
 private:
 	bool canJump = false;
+	bool isLeft = false;
 };
 

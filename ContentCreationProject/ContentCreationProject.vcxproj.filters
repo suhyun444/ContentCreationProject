@@ -46,6 +46,12 @@
     <Filter Include="헤더 파일\Handler">
       <UniqueIdentifier>{45a5e230-f7d7-411a-bfc3-d56e5be90b12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Mesh\Player">
+      <UniqueIdentifier>{1318f376-42a9-46d5-a316-67a3128a9df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Mesh\Player">
+      <UniqueIdentifier>{ca16e210-04f0-4b8e-a0bb-781c8fd0fcb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicShader.h">
@@ -108,9 +114,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>헤더 파일\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>헤더 파일\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Quad.h">
       <Filter>헤더 파일\Mesh</Filter>
     </ClInclude>
@@ -132,11 +135,14 @@
     <ClInclude Include="Timer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GroundChecker.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Delegate.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundChecker.h">
+      <Filter>헤더 파일\Mesh\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일\Mesh\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +209,6 @@
     <ClCompile Include="AnimationState.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Quad.cpp">
       <Filter>소스 파일\Mesh</Filter>
     </ClCompile>
@@ -228,7 +231,10 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GroundChecker.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Mesh\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\Mesh\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

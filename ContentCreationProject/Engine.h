@@ -39,5 +39,7 @@ private:
 	Player player;
 	Quad quad;
 	QuadUV quadUV;
+
+	ComPtr<ID3D11Buffer> unitBuffer;
 };
 

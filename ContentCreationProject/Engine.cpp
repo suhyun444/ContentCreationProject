@@ -1,8 +1,7 @@
 #include "Engine.h"
 #include <d3dcompiler.h>
+#include <iostream>
 
-//마우스 포인터 실위치와 윈도우 위치를 다르게하면 마우스 고정없이 마우스 포인터를 쓸 수 있지않을까?
-//범위 밖으로 넘어갔을때 윈도우위치에맞게 Clamp해주고 "다시 들어왔을때" 마우스 포인터 코드 위치가 바뀌도록
 Engine::Engine() : DXApp()
 {
 
@@ -98,6 +97,13 @@ void Engine::DrawScene()
 
 	meshHandler.RenderBuffer(deviceContext.Get());
 
+#pragma region  player sprite filp logic
+	Matrix4f unitInfo;
+	if (player.GetIsLeft())unitInfo = Matrix4f::Identity();
+	deviceContext->UpdateSubresource(unitBuffer.Get(), NULL, nullptr, &unitInfo, 0, 0);
+	deviceContext->VSSetConstantBuffers(2, 1, unitBuffer.GetAddressOf());
+#pragma endregion
+
 	swapChain->Present(1, 0);
 }
 
@@ -117,6 +123,35 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 	
+
+	D3D11_BUFFER_DESC unitBufferDesc;
+	memset(&unitBufferDesc, 0, sizeof(unitBufferDesc));
+	unitBufferDesc.ByteWidth = sizeof(Matrix4f) * 2;
+	unitBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	unitBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	unitBufferDesc.CPUAccessFlags = 0;
+	unitBufferDesc.MiscFlags = 0;
+
+	Matrix4f unitInfo;
+
+	D3D11_SUBRESOURCE_DATA data;
+	memset(&data, 0, sizeof(data));
+	data.pSysMem = &unitInfo;
+
+	HRESULT result = device->CreateBuffer(
+		&unitBufferDesc,
+		&data,
+		unitBuffer.GetAddressOf()
+	);
+
+	if (FAILED(result))
+	{
+		MessageBox(nullptr, L"유닛 버퍼 생성 실패", L"오류", 0);
+		throw std::exception("유닛 버퍼 생성 실패");
+		return false;
+	}
+
+
 	if (quad.InitializeBuffers(device.Get()) == false)
 	{
 		return false;
@@ -134,6 +169,7 @@ bool Engine::InitializeScene() {
 	}
 	player.SetPosition(0.0f, -1.0f, 0.0f);
 	player.SetScale(1.0f, 1.0f, 1.0f);
+	player.SetRotation(0.0f, 0.0f, 0.0f);
 	player.SetCollisionScale(0.2f, 0.85f, 0.0f);
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);

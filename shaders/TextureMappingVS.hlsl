@@ -9,6 +9,10 @@ cbuffer camera : register(b1)
 {
 	matrix viewProjection;
 };
+cbuffer unit : register(b2)
+{
+	matrix isLeft;
+};
 // 정점 입력.
 struct vs_input
 {
@@ -31,6 +35,14 @@ vs_output main(vs_input input)
 	output.position = mul(input.position, world);
 	output.position = mul(output.position, viewProjection);
 	output.texCoord = input.texCoord;
+	if (isLeft._11)
+	{
+		output.texCoord = float2(-input.texCoord.x, input.texCoord.y);
+	}
+	else
+	{
+		output.texCoord = float2(input.texCoord.x, input.texCoord.y);
+	}
 
 	return output;
 }

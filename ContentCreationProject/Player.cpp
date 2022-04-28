@@ -13,6 +13,15 @@ void Player::Update(float deltaTime)
 {
 	deltaTime /= 1000;
 	position = position + Vector3f(velocity.x, velocity.y, 0) * deltaTime;
+	if (velocity.x < 0 && !isLeft)
+	{
+		isLeft = true;
+	}
+	else if (velocity.x > 0 && isLeft)
+	{
+		isLeft = false;
+	}
+
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
 }
 void Player::UpdateVelocity(int x)
