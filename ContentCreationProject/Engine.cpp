@@ -80,6 +80,7 @@ void Engine::Update()
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
 	player.UpdateVelocity(x);
 	if (inputHandler.IsKeyDown(DIK_SPACE))player.Jump();
+	if (inputHandler.IsKeyDown(DIK_X))player.Attack();
 	player.Update(timer.GetTime());
 
 	collisionHandler.BoardPhase();
@@ -165,15 +166,16 @@ bool Engine::InitializeScene() {
 
 	std::vector<std::wstring> playerSpriteSheet;
 	for (int i = 1; i < 9; i++)playerSpriteSheet.push_back(L"PlayerIdle" + to_wstring(i) + L".png");
-	for (int i = 1; i < 10; i++)playerSpriteSheet.push_back(L"PlayerWalk" + to_wstring(i) + L".png");
+	for (int i = 1; i < 11; i++)playerSpriteSheet.push_back(L"PlayerWalk" + to_wstring(i) + L".png");
+	for (int i = 1; i < 19; i++)playerSpriteSheet.push_back(L"PlayerAttack" + to_wstring(i) + L".png");
 	if (player.InitializeBuffers(device.Get(), playerSpriteSheet) == false)
 	{
 		return false;
 	}
 	player.SetPosition(0.0f, -1.0f, 0.0f);
-	player.SetScale(1.0f, 1.0f, 1.0f);
+	player.SetScale(1.5f, 1.5f, 1.0f);
 	player.SetRotation(0.0f, 0.0f, 0.0f);
-	player.SetCollisionScale(0.8f, 1.0f, 0.0f);
+	player.SetCollisionScale(0.6f, 1.5f, 0.0f);
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);
 

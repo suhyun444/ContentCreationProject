@@ -7,7 +7,8 @@ enum class PlayerState
 	Idle,
 	Walk,
 	Attack1,
-	Attack2
+	Attack2,
+	Attack3
 };
 class Player : public QuadUV
 {
@@ -19,17 +20,28 @@ public:
 	void Jump();
 	void GroundCheck();
 	bool GetIsLeft() { return isLeft; }
+	void Attack();
 	GroundChecker groundChecker;
 private:
 	float animationTime;
 	bool canJump = false;
 	bool isLeft = false;
+	bool isAttack = false;
+	
+	int attackType;
+	float attackTime;
+	float attackDelay;
+	float attackTerm;
 
 	int animationIndex;
 	PlayerState curState;
 	std::map<PlayerState, AnimationState> animationState;
 	AnimationState idleState;
 	AnimationState walkState;
+	AnimationState attack1State;
+	AnimationState attack2State;
+	AnimationState attack3State;
 	void InitAnimationState();
+	void ChangeAnimationState(PlayerState nestState);
 };
 

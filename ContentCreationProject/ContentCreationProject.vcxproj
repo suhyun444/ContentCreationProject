@@ -155,6 +155,7 @@
     <ClInclude Include="BasicShader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionHandler.h" />
+    <ClInclude Include="Crab.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="Engine.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="BasicShader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
+    <ClCompile Include="Crab.cpp" />
     <ClCompile Include="DXApp.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GroundChecker.cpp" />
