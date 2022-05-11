@@ -24,6 +24,8 @@ void CollisionHandler::BoardPhase()
 }
 void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 {
+	Vector3f mesh1Position = mesh1->Position() + mesh1->CollisionOffset();
+	Vector3f mesh2Position = mesh2->Position() + mesh2->CollisionOffset();
 	std::vector<Vector3f> mesh1Vertics = mesh1->GetVertics();
 	std::vector<Vector3f> mesh2Vertics = mesh2->GetVertics();
 
@@ -43,7 +45,7 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		verticesCount = mesh1Vertics.size();
 		for (int i = 0; i < verticesCount; i++)
 		{
-			Vector3f centerToVertex = mesh1Vertics[i] - mesh1->Position();
+			Vector3f centerToVertex = mesh1Vertics[i] - mesh1Position;
 			float cur = axes[ia].Dot(centerToVertex);
 			ra = max(ra, cur);
 		}
@@ -52,14 +54,14 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		verticesCount = mesh2Vertics.size();
 		for (int i = 0; i < verticesCount; i++)
 		{
-			Vector3f centerToVertex = mesh2Vertics[i] - mesh2->Position();
+			Vector3f centerToVertex = mesh2Vertics[i] - mesh2Position;
 			float cur = -axes[ia].Dot(centerToVertex);
 			if (cur > rb)
 			{
 				rb = cur;
 			}
 		}
-		Vector3f t = mesh1->Position() - mesh2->Position();
+		Vector3f t = mesh1Position - mesh2Position;
 		float distance = fabsf(axes[ia].Dot(t));
 		if (distance >= ra + rb)
 		{
@@ -72,8 +74,8 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 			MTV = t;
 		}
 	}
-	float xDiff = fabsf(mesh1->Position().x - mesh2->Position().x);
-	float yDiff = fabsf(mesh1->Position().y - mesh2->Position().y);
+	float xDiff = fabsf(mesh1Position.x - mesh2Position.x);
+	float yDiff = fabsf(mesh1Position.y - mesh2Position.y);
 
 	//움직이지 않는 물체 한개 정하기
 	int type = -1;
@@ -102,4 +104,44 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 	}
 	mesh1->Collide(mesh2);
 	mesh2->Collide(mesh1);
+}
+Mesh* CollisionHandler::Raycast(float x, float y)
+{
+	for (int i = 0; i < meshs.size(); i++)
+	{
+		Mesh* mesh1 = meshs[i];
+		Vector3f mesh1Position = mesh1->Position() + mesh1->CollisionOffset();
+		std::vector<Vector3f> mesh1Vertics = mesh1->GetVertics();
+
+		std::vector<Vector3f> axes;
+		for (int i = 0; i < mesh1Vertics.size(); i++)
+			axes.push_back(mesh1Vertics[i] - mesh1Vertics[(i + 1) % mesh1Vertics.size()]);
+
+		int verticesCount;
+		bool notCollide = false;
+		for (int ia = 0; ia < axes.size(); ia++)
+		{
+			float ra = 0;
+			verticesCount = mesh1Vertics.size();
+			for (int i = 0; i < verticesCount; i++)
+			{
+				Vector3f centerToVertex = mesh1Vertics[i] - mesh1Position;
+				float cur = axes[ia].Dot(centerToVertex);
+				ra = max(ra, cur);
+			}
+
+			Vector3f t = mesh1Position - Vector3f(x, y, 0.0f);
+			float distance = fabsf(axes[ia].Dot(t));
+			if (distance >= ra)
+			{
+				notCollide = true;
+				break;
+			}
+		}
+		if (!notCollide)
+		{
+			return mesh1;
+		}
+	}
+	return NULL;
 }

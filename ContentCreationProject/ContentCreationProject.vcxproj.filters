@@ -52,6 +52,12 @@
     <Filter Include="헤더 파일\Mesh\Player">
       <UniqueIdentifier>{ca16e210-04f0-4b8e-a0bb-781c8fd0fcb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Mesh\Monster">
+      <UniqueIdentifier>{8faf24ce-2af3-41c7-987c-597ba8450cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Mesh\Monster">
+      <UniqueIdentifier>{69c8f21e-1e18-4321-afbe-8c2242ecc67d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicShader.h">
@@ -145,6 +151,9 @@
       <Filter>헤더 파일\Mesh\Player</Filter>
     </ClInclude>
     <ClInclude Include="Crab.h">
+      <Filter>헤더 파일\Mesh\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Raycast.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -240,6 +249,9 @@
       <Filter>소스 파일\Mesh\Player</Filter>
     </ClCompile>
     <ClCompile Include="Crab.cpp">
+      <Filter>소스 파일\Mesh\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Raycast.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

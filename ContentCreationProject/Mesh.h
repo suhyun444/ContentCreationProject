@@ -24,7 +24,7 @@ public:
 	virtual void Collide(Mesh* collision);
 	virtual bool InitializeBuffers(ID3D11Device* device) = 0;
 	virtual bool InitializeBuffers(ID3D11Device* device, std::vector<std::wstring> textureFileNames) = 0;
-
+	virtual void SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer);
 	virtual void RenderBuffers(ID3D11DeviceContext* deviceContext);
 
 	virtual void BindBuffers(ID3D11DeviceContext* deviceContext);
@@ -46,6 +46,10 @@ public:
 
 	void SetCollisionScale(float x, float y, float z);
 	void SetCollisionScale(Vector3f scale);
+
+	void SetCollisionOffset(float x, float y, float z);
+	void SetCollisionOffset(Vector3f scale);
+	Vector3f& CollisionOffset() { return collisionOffset; }
 	
 	void SetMass(float mass);
 	float Mass() { return mass; }
@@ -60,7 +64,6 @@ protected:
 	ComPtr<ID3D11InputLayout> inputLayout; // 입력 레이아웃.
 
 	vector<std::pair<float,float>> verticsRadians;
-	Vector3f collisionScale;
 	// 트랜스폼 버퍼.
 	TransformBuffer transform;
 
@@ -68,6 +71,8 @@ protected:
 	Vector3f position;
 	Vector3f rotation;
 	Vector3f scale;
+	Vector3f collisionScale;
+	Vector3f collisionOffset;
 	Vector3f velocity;
 	float mass;
 	std::string curAnimationState;

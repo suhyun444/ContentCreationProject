@@ -11,5 +11,6 @@ public:
 	void Add(Mesh* mesh);
 	void BoardPhase();
 	void Collide(Mesh* mesh1, Mesh* mesh2);
+	Mesh* Raycast(float x, float y);
 };
 

@@ -15,6 +15,7 @@ class Player : public QuadUV
 public:
 	Player();
 	~Player();
+	void SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer) override;
 	void Update(float deltaTime);
 	void UpdateVelocity(int x);
 	void Jump();
@@ -42,6 +43,6 @@ private:
 	AnimationState attack2State;
 	AnimationState attack3State;
 	void InitAnimationState();
-	void ChangeAnimationState(PlayerState nestState);
+	void ChangeAnimationState(PlayerState nextState);
 };
 

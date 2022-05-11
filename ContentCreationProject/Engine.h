@@ -9,7 +9,9 @@
 #include "CollisionHandler.h"
 #include "MeshHandler.h"
 #include "Player.h"
+#include "Crab.h"
 #include "Timer.h"
+#include "Raycast.h"
 
 class Engine : public DXApp
 {
@@ -33,12 +35,13 @@ private:
 	InputHandler inputHandler;
 	CollisionHandler collisionHandler;
 	MeshHandler meshHandler;
+	Raycast raycast;
 	Timer timer;
 	Camera camera;
 
 	Player player;
+	Crab crab;
 	Quad quad;
-	QuadUV quadUV;
 
 	ComPtr<ID3D11Buffer> unitBuffer;
 };

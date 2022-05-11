@@ -7,6 +7,7 @@ Mesh::Mesh()
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
     collisionScale(Vector3f::Zero),
+    collisionOffset(Vector3f::Zero),
     mass(200),
     tag("default")
 {
@@ -18,6 +19,7 @@ Mesh::Mesh(float _mass)
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
     collisionScale(Vector3f::Zero),
+    collisionOffset(Vector3f::Zero),
     tag("default")
 {
     mass = _mass;
@@ -33,6 +35,7 @@ std::vector<Vector3f> Mesh::GetVertics()
 {
     std::vector<Vector3f> returnVertics;
     int vertexCount = verticsRadians.size();
+    Vector3f collisionPosition = position + collisionOffset;
     for (int i = 0; i < vertexCount; i++)
     {
         float radian = verticsRadians[i].first + rotation.z * MathUtil::Deg2Rad;
@@ -48,10 +51,14 @@ std::vector<Vector3f> Mesh::GetVertics()
             vertex.x *= collisionScale.x;
             vertex.y *= collisionScale.y;
         }
-        vertex += position;
+        vertex += collisionPosition;
         returnVertics.push_back(vertex);
     }
     return returnVertics;
+}
+void Mesh::SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer)
+{
+    
 }
 
 void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
@@ -122,6 +129,14 @@ void Mesh::SetCollisionScale(float x, float y, float z)
 void Mesh::SetCollisionScale(Vector3f scale)
 {
     collisionScale = scale;
+}
+void Mesh::SetCollisionOffset(float x, float y, float z)
+{
+    collisionOffset = Vector3f(x, y, z);
+}
+void Mesh::SetCollisionOffset(Vector3f scale)
+{
+    collisionOffset = scale;
 }
 void Mesh::SetMass(float mass)
 {

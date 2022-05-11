@@ -77,6 +77,8 @@ void Engine::Update()
 	inputHandler.Frame();
 	camera.UpdateCamera();
 
+	crab.Update(timer.GetTime());
+
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
 	player.UpdateVelocity(x);
 	if (inputHandler.IsKeyDown(DIK_SPACE))player.Jump();
@@ -96,14 +98,8 @@ void Engine::DrawScene()
 
 	camera.BindBuffer(deviceContext.Get());
 
-	meshHandler.RenderBuffer(deviceContext.Get());
 
-#pragma region  player sprite filp logic
-	Matrix4f unitInfo;
-	if (player.GetIsLeft())unitInfo = Matrix4f::Identity();
-	deviceContext->UpdateSubresource(unitBuffer.Get(), NULL, nullptr, &unitInfo, 0, 0);
-	deviceContext->VSSetConstantBuffers(2, 1, unitBuffer.GetAddressOf());
-#pragma endregion
+	meshHandler.RenderBuffer(deviceContext.Get(), unitBuffer.Get());
 
 	swapChain->Present(1, 0);
 }
@@ -152,6 +148,8 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 
+	raycast.Initialize();
+	raycast.collisionHandler = &collisionHandler;
 
 	if (quad.InitializeBuffers(device.Get()) == false)
 	{
@@ -172,10 +170,6 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	player.SetPosition(0.0f, -1.0f, 0.0f);
-	player.SetScale(1.5f, 1.5f, 1.0f);
-	player.SetRotation(0.0f, 0.0f, 0.0f);
-	player.SetCollisionScale(0.6f, 1.5f, 0.0f);
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);
 
@@ -183,11 +177,24 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	//player.groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, &player));
 	player.groundChecker.SetScale(0.0f, 0.0f, 0.0f);
 	player.groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	collisionHandler.Add(&player.groundChecker);
 	meshHandler.Add(&player.groundChecker);
+
+	std::vector<std::wstring> crabSpriteSheet;
+	for (int i = 1; i < 6; i++)crabSpriteSheet.push_back(L"CrabIdle" + to_wstring(i) + L".png");
+	for (int i = 1; i < 10; i++)crabSpriteSheet.push_back(L"CrabWalk" + to_wstring(i) + L".png");
+	for (int i = 1; i < 13; i++)crabSpriteSheet.push_back(L"CrabAttack" + to_wstring(i) + L".png");
+	for (int i = 1; i < 19; i++)crabSpriteSheet.push_back(L"CrabDead" + to_wstring(i) + L".png");
+	if (crab.InitializeBuffers(device.Get(), crabSpriteSheet) == false)
+	{
+		return false;
+	}
+	collisionHandler.Add(&crab);
+	meshHandler.Add(&crab);
+
+
 
 	return true;
 }

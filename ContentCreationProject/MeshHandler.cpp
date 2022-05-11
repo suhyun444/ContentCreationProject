@@ -1,8 +1,9 @@
 #include "MeshHandler.h"
-void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext)
+void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer)
 {
 	for (int i = 0; i < meshs.size(); i++)
 	{
+		meshs[i]->SetIsLeft(deviceContext, unitBuffer);
 		meshs[i]->RenderBuffers(deviceContext);
 	}
 }

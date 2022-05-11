@@ -3,6 +3,11 @@
 
 Player::Player()
 {
+	position = Vector3f(0.0f, -1.0f, 0.0f);
+	scale = Vector3f(1.5f, 1.5f, 1.0f);
+	collisionScale = Vector3f(0.6f, 0.7f, 0.0f);
+	collisionOffset = Vector3f(0.0f, -0.41f, 0.0f);
+
 	animationTime = 0.0f;
 	animationIndex = 0;
 	curState = PlayerState::Idle;
@@ -17,6 +22,13 @@ Player::Player()
 Player::~Player()
 {
 	
+}
+void Player::SetIsLeft(ID3D11DeviceContext* deviceContext , ID3D11Buffer* unitBuffer)
+{
+	Matrix4f unitInfo;
+	if (GetIsLeft())unitInfo = Matrix4f::Identity();
+	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
+	deviceContext->VSSetConstantBuffers(2, 1, &unitBuffer);
 }
 
 void Player::Update(float deltaTime)
