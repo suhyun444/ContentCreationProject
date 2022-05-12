@@ -1,6 +1,8 @@
 #pragma once
 #include "QuadUV.h"
 #include "Raycast.h"
+#include "Player.h"
+
 enum class CrabState
 {
 	Idle,
@@ -17,7 +19,14 @@ public:
 	void Think();
 	void SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer) override;
 	void GroundCheck();
+	void SetPlayer(Player* player);
+	void Collide(Mesh* collision) override;
 private:
+	Player* player;
+	float attackRange = 10.0f;
+	float attackTime = 0.0f;
+	float attackDelay = 3.0f;
+
 	float thinkTime;
 	float thinkDelay;
 

@@ -3,6 +3,7 @@
 
 Player::Player()
 {
+	isTrigger = true;
 	position = Vector3f(0.0f, -1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.7f, 0.0f);
@@ -18,6 +19,9 @@ Player::Player()
 	attackDelay = 0.38f;
 	attackTerm = 0.7f;
 	groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, this));
+	hitbox.SetIsEnable(false);
+	hitbox.SetIsTrigger(true);
+	hitbox.SetTag("PlayerAttack");
 }
 Player::~Player()
 {
@@ -47,7 +51,6 @@ void Player::Update(float deltaTime)
 	{
 		isLeft = false;
 	}
-
 	animationTime += deltaTime;
 	if (animationTime > animationState[curState].frames[animationIndex].second)
 	{
@@ -59,6 +62,7 @@ void Player::Update(float deltaTime)
 				animationIndex %= animationState[curState].frames.size();
 			else
 			{
+				hitbox.SetIsEnable(false);
 				isAttack = false;
 				animationIndex--;
 			}
@@ -72,8 +76,11 @@ void Player::Update(float deltaTime)
 	{
 		ChangeAnimationState(PlayerState::Idle);
 	}
+	if (isAttack && 0.18 > attackTime && attackTime < 0.28f)hitbox.SetIsEnable(true);
+	if (isAttack && attackTime > 0.28f)hitbox.SetIsEnable(false);
+
 	
-	
+	hitbox.SetPosition(position.x  + 0.3f * ((isLeft)? -1 : 1), position.y - 0.4f,0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
 }
 void Player::Attack()

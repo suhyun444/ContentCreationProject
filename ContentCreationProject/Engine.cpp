@@ -182,6 +182,16 @@ bool Engine::InitializeScene() {
 	collisionHandler.Add(&player.groundChecker);
 	meshHandler.Add(&player.groundChecker);
 
+	if (player.hitbox.InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	player.hitbox.SetScale(0.0f, 0.0f, 1.0f);
+	player.hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
+	collisionHandler.Add(&player.hitbox);
+	meshHandler.Add(&player.hitbox);
+
+
 	std::vector<std::wstring> crabSpriteSheet;
 	for (int i = 1; i < 6; i++)crabSpriteSheet.push_back(L"CrabIdle" + to_wstring(i) + L".png");
 	for (int i = 1; i < 10; i++)crabSpriteSheet.push_back(L"CrabWalk" + to_wstring(i) + L".png");
@@ -191,6 +201,7 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
+	crab.SetPlayer(&player);
 	collisionHandler.Add(&crab);
 	meshHandler.Add(&crab);
 

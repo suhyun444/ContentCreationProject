@@ -1,5 +1,6 @@
 #pragma once
 #include "QuadUV.h"
+#include "Quad.h"
 #include "GroundChecker.h"
 
 enum class PlayerState
@@ -23,6 +24,7 @@ public:
 	bool GetIsLeft() { return isLeft; }
 	void Attack();
 	GroundChecker groundChecker;
+	Quad hitbox;
 private:
 	float animationTime;
 	bool canJump = false;

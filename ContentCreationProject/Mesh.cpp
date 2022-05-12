@@ -146,3 +146,11 @@ void Mesh::SetTag(string tag)
 {
     this->tag = tag;
 }
+void Mesh::SetIsTrigger(bool isTrigger)
+{
+    this->isTrigger = isTrigger;
+}
+void Mesh::SetIsEnable(bool isEnable)
+{
+    this->isEnable = isEnable;
+}

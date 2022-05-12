@@ -2,6 +2,7 @@
 #include <iostream>
 Crab::Crab()
 {
+	isTrigger = true;
 	position = Vector3f(3.0f, 1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.6f, 0.0f);
@@ -28,7 +29,13 @@ void Crab::Update(float deltaTime)
 	velocity.y -= 1.0f;
 	velocity.y = max(velocity.y, -2.5f);
 
-	position = position + Vector3f(velocity.x, velocity.y, 0) * deltaTime;
+	if (!isAttack)
+	{
+		if (player->Position().x < position.x)isLeft = true;
+		else isLeft = false;
+
+		position = position + Vector3f(velocity.x, velocity.y, 0) * deltaTime;
+	}
 
 	animationTime += deltaTime;
 	if (animationTime > animationState[curState].frames[animationIndex].second)
@@ -46,19 +53,36 @@ void Crab::Update(float deltaTime)
 			}
 		}
 	}
-	if (velocity.x != 0 && curState == CrabState::Idle)
+	
+	float distance = sqrt(pow(player->Position().x - position.x,2) + pow(player->Position().y - position.y, 2));
+	if (distance < 3)
+	{
+		attackTime += deltaTime;
+		if (attackTime > attackDelay)
+		{
+			isAttack = true;
+			attackTime = 0.0f;
+			ChangeAnimationState(CrabState::Attack);
+		}
+	}
+
+	if (velocity.x != 0 && curState == CrabState::Idle && !isAttack)
 	{
 		ChangeAnimationState(CrabState::Walk);
 	}
-	if (velocity.x == 0 && curState == CrabState::Walk)
+	if (velocity.x == 0 && curState == CrabState::Walk && !isAttack)
 	{
 		ChangeAnimationState(CrabState::Idle);
 	}
-	thinkTime += deltaTime;
-	GroundCheck();
-	if (thinkTime > thinkDelay)
+	if (!isAttack && curState == CrabState::Attack)
 	{
-		thinkTime = 0.0f;
+		ChangeAnimationState(CrabState::Idle);
+	}
+	thinkTime -= deltaTime;
+	GroundCheck();
+	if (thinkTime < 0)
+	{
+		thinkTime = rand() % 2 + 3;
 		Think();
 	}
 }
@@ -68,10 +92,22 @@ void Crab::GroundCheck()
 	if (collision == NULL)
 	{
 		velocity.x *= -1;
-		thinkTime = 0.0f;
+		thinkTime = rand() % 2 + 3;
 		return;
 	}
 }
+void Crab::SetPlayer(Player* player)
+{
+	this->player = player;
+}
+void Crab::Collide(Mesh* collision)
+{
+	if (collision->Tag() == "PlayerAttack")
+	{
+		std::cout << "damage\n";
+	}
+}
+
 void Crab::Think()
 {
 	int type = rand() % 3;
@@ -107,7 +143,7 @@ void Crab::InitAnimationState()
 
 	for (int i = 1; i < 13; i++)
 	{
-		attackState.frames.push_back({ "CrabAttack" + to_string(i) + ".png",0.06f });
+		attackState.frames.push_back({ "CrabAttack" + to_string(i) + ".png",0.1f });
 	}
 	attackState.isLoop = false;
 	animationState.insert({ CrabState::Attack,attackState });

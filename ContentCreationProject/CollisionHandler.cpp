@@ -18,6 +18,7 @@ void CollisionHandler::BoardPhase()
 		for (int j = i + 1; j < meshs.size(); j++)
 		{
 			if (meshs[i]->Mass() == 0 && meshs[j]->Mass() == 0)continue;
+			if (!meshs[i]->IsEnable() || !meshs[j]->IsEnable())continue;
 			Collide(meshs[i], meshs[j]);
 		}
 	}
@@ -74,36 +75,44 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 			MTV = t;
 		}
 	}
-	float xDiff = fabsf(mesh1Position.x - mesh2Position.x);
-	float yDiff = fabsf(mesh1Position.y - mesh2Position.y);
-
-	//움직이지 않는 물체 한개 정하기
-	int type = -1;
-	if (mesh1->Mass() == 0)type = 0;
-	if (mesh2->Mass() == 0)type = 1;
-	if (type == -1) type = (mesh1->Mass() > mesh2->Mass()) ? 0 : 1;
-	//가로 절반크기보다 크면 좌우로 밀기
-	//세로 절반크기보다 크면 상하로 밀기
-	if (type == 0)
+	if (mesh1->IsTrigger() && mesh2->IsTrigger())
 	{
-		if (xDiff > mesh1->Scale().x / 2)
-			MTV.y = 0;
-		if(yDiff > mesh1->Scale().y / 2)
-			MTV.x = 0;
-		MTV.Normalized();
-		mesh2->SetPosition(mesh2->Position() - MTV * minSeparation);
+		mesh1->Collide(mesh2);
+		mesh2->Collide(mesh1);
 	}
 	else
 	{
-		if (xDiff > mesh2->Scale().x / 2)
-			MTV.y = 0;
-		if (yDiff > mesh2->Scale().y / 2)
-			MTV.x = 0;
-		MTV.Normalized();
-		mesh1->SetPosition(mesh1->Position() + MTV * minSeparation);
+
+		//움직이지 않는 물체 한개 정하기
+		//가로 절반크기보다 크면 좌우로 밀기
+		//세로 절반크기보다 크면 상하로 밀기
+		float xDiff = fabsf(mesh1Position.x - mesh2Position.x);
+		float yDiff = fabsf(mesh1Position.y - mesh2Position.y);
+		int type = -1;
+		if (mesh1->Mass() == 0)type = 0;
+		if (mesh2->Mass() == 0)type = 1;
+		if (type == -1) type = (mesh1->Mass() > mesh2->Mass()) ? 0 : 1;
+		if (type == 0)
+		{
+			if (xDiff > mesh1->Scale().x / 2)
+				MTV.y = 0;
+			if(yDiff > mesh1->Scale().y / 2)
+				MTV.x = 0;
+			MTV.Normalized();
+			mesh2->SetPosition(mesh2->Position() - MTV * minSeparation);
+		}
+		else
+		{
+			if (xDiff > mesh2->Scale().x / 2)
+				MTV.y = 0;
+			if (yDiff > mesh2->Scale().y / 2)
+				MTV.x = 0;
+			MTV.Normalized();
+			mesh1->SetPosition(mesh1->Position() + MTV * minSeparation);
+		}
+		mesh1->Collide(mesh2);
+		mesh2->Collide(mesh1);
 	}
-	mesh1->Collide(mesh2);
-	mesh2->Collide(mesh1);
 }
 Mesh* CollisionHandler::Raycast(float x, float y)
 {

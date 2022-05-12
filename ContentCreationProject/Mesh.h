@@ -57,6 +57,12 @@ public:
 	void SetTag(string tag);
 	string Tag() { return tag; }
 
+	void SetIsTrigger(bool isTrigger);
+	bool IsTrigger(){ return isTrigger; }
+
+	void SetIsEnable(bool isEnable);
+	bool IsEnable() { return isEnable; }
+
 protected:
 	MeshShader* meshShader;
 	int vertexCount;				// 정점 개수.
@@ -77,4 +83,6 @@ protected:
 	float mass;
 	std::string curAnimationState;
 	string tag;
+	bool isTrigger = false;
+	bool isEnable = true;
 };
