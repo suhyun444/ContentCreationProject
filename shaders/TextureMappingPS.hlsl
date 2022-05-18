@@ -2,7 +2,8 @@
 struct ps_input
 {
     float4 position : POSITION;
-    float2 texCoord : TEXCOORD;
+    float2 texCoord : TEXCOORD0;
+    float2 hitCoord : TEXCOORD1;
 };
 
 // 텍스쳐 데이터.
@@ -16,5 +17,9 @@ float4 main(ps_input input) : SV_TARGET
     // 이미지의 색상 추출하기.
     float4 color = image.Sample(samplerState, input.texCoord);
     //return float4(0.0f, 0.0f, 0.0f, 0.5f);
+    if (input.hitCoord.x == 1)
+    {
+        return float4(0.8f, 0.0f, 0.0f, color.a);
+    }
     return color;
 }

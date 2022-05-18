@@ -17,14 +17,15 @@ cbuffer unit : register(b2)
 struct vs_input
 {
 	float4 position : POSITION;
-	float2 texCoord : TEXCOORD;
+	float2 texCoord : TEXCOORD0;
 };
 
 // 정점 출력.
 struct vs_output
 {
 	float4 position : SV_POSITION; // 시스템이 쓰니까, SV 붙힘.
-	float2 texCoord : TEXCOORD;
+	float2 texCoord : TEXCOORD0;
+	float2 hitCoord : TEXCOORD1;
 };
 
 // float4 main(float4 position : POSITION) : SV_POSITION
@@ -42,6 +43,14 @@ vs_output main(vs_input input)
 	else
 	{
 		output.texCoord = float2(input.texCoord.x, input.texCoord.y);
+	}
+	if (isLeft._22)
+	{
+		output.hitCoord = float2(1,1);
+	}
+	else
+	{
+		output.hitCoord = float2(0, 0);
 	}
 
 	return output;

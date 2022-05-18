@@ -20,12 +20,17 @@ public:
 	void SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer) override;
 	void GroundCheck();
 	void SetPlayer(Player* player);
+	Quad hitbox;
 	void Collide(Mesh* collision) override;
 private:
 	Player* player;
 	float attackRange = 10.0f;
 	float attackTime = 0.0f;
 	float attackDelay = 3.0f;
+
+	float unBeatTime = 2.0f;
+
+	int hp = 3;
 
 	float thinkTime;
 	float thinkDelay;
@@ -34,6 +39,7 @@ private:
 	float animationTime;
 	int animationIndex;
 	bool isAttack = false;
+	bool isDead = false;
 	CrabState curState;
 	std::map<CrabState, AnimationState> animationState;
 	AnimationState idleState;

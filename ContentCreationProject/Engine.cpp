@@ -77,7 +77,7 @@ void Engine::Update()
 	inputHandler.Frame();
 	camera.UpdateCamera();
 
-	crab.Update(timer.GetTime());
+	if(crab.IsEnable())crab.Update(timer.GetTime());
 
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
 	player.UpdateVelocity(x);
@@ -177,8 +177,6 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	player.groundChecker.SetScale(0.0f, 0.0f, 0.0f);
-	player.groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	collisionHandler.Add(&player.groundChecker);
 	meshHandler.Add(&player.groundChecker);
 
@@ -186,8 +184,6 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
-	player.hitbox.SetScale(0.0f, 0.0f, 1.0f);
-	player.hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
 	collisionHandler.Add(&player.hitbox);
 	meshHandler.Add(&player.hitbox);
 
@@ -205,7 +201,12 @@ bool Engine::InitializeScene() {
 	collisionHandler.Add(&crab);
 	meshHandler.Add(&crab);
 
-
+	if (crab.hitbox.InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	collisionHandler.Add(&crab.hitbox);
+	meshHandler.Add(&crab.hitbox);
 
 	return true;
 }

@@ -3,6 +3,7 @@ void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext, ID3D11Buffer*
 {
 	for (int i = 0; i < meshs.size(); i++)
 	{
+		if (!meshs[i]->IsEnable())continue;
 		meshs[i]->SetIsLeft(deviceContext, unitBuffer);
 		meshs[i]->RenderBuffers(deviceContext);
 	}
@@ -11,6 +12,7 @@ void MeshHandler::UpdateBuffer(ID3D11DeviceContext* deviceContext)
 {
 	for (int i = 0; i < meshs.size(); i++)
 	{
+		if (!meshs[i]->IsEnable())continue;
 		meshs[i]->UpdateBuffers(deviceContext);
 	}
 }

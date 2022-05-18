@@ -25,6 +25,7 @@ public:
 	void Attack();
 	GroundChecker groundChecker;
 	Quad hitbox;
+	void Collide(Mesh* mesh) override;
 private:
 	float animationTime;
 	bool canJump = false;
@@ -35,6 +36,8 @@ private:
 	float attackTime;
 	float attackDelay;
 	float attackTerm;
+
+	float unBeatTime = 2.0;
 
 	int animationIndex;
 	PlayerState curState;

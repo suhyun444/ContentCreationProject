@@ -18,7 +18,13 @@ Player::Player()
 	attackType = 0;
 	attackDelay = 0.38f;
 	attackTerm = 0.7f;
+	
 	groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, this));
+	groundChecker.SetScale(0.0f, 0.0f, 0.0f);
+	groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
+
+	hitbox.SetScale(0.0f, 0.0f, 1.0f);
+	hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
 	hitbox.SetIsEnable(false);
 	hitbox.SetIsTrigger(true);
 	hitbox.SetTag("PlayerAttack");
@@ -30,14 +36,27 @@ Player::~Player()
 void Player::SetIsLeft(ID3D11DeviceContext* deviceContext , ID3D11Buffer* unitBuffer)
 {
 	Matrix4f unitInfo;
-	if (GetIsLeft())unitInfo = Matrix4f::Identity();
-	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
+	if (GetIsLeft())unitInfo.Get(0, 0) = 1;
+	if (unBeatTime < 0.1f)unitInfo.Get(1, 1) = 1;
+  	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
 	deviceContext->VSSetConstantBuffers(2, 1, &unitBuffer);
+}
+void Player::Collide(Mesh* mesh)
+{
+	if (mesh->Tag() == "EnemyAttack")
+	{
+		if (unBeatTime > 0.5f)
+		{
+			unBeatTime = 0.0f;
+			std::cout << "playerhitted" << rand() % 40 << "\n";
+		}
+	}
 }
 
 void Player::Update(float deltaTime)
 {
 	deltaTime /= 1000;
+	unBeatTime += deltaTime;
 	attackTime += deltaTime;
 	if (attackTime > attackTerm)
 		attackType = 0;
@@ -76,7 +95,7 @@ void Player::Update(float deltaTime)
 	{
 		ChangeAnimationState(PlayerState::Idle);
 	}
-	if (isAttack && 0.18 > attackTime && attackTime < 0.28f)hitbox.SetIsEnable(true);
+	if (isAttack && 0.18 < attackTime && attackTime < 0.28f)hitbox.SetIsEnable(true);
 	if (isAttack && attackTime > 0.28f)hitbox.SetIsEnable(false);
 
 	
