@@ -75,8 +75,6 @@ void Engine::Update()
 {
 	timer.Frame();
 	inputHandler.Frame();
-	camera.UpdateCamera();
-
 	if(crab.IsEnable())crab.Update(timer.GetTime());
 
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
@@ -87,6 +85,7 @@ void Engine::Update()
 
 	collisionHandler.BoardPhase();
 	meshHandler.UpdateBuffer(deviceContext.Get());
+	camera.UpdateCamera();
 }
 
 void Engine::DrawScene()
@@ -170,6 +169,7 @@ bool Engine::InitializeScene() {
 	{
 		return false;
 	}
+	player.camera = &camera;
 	collisionHandler.Add(&player);
 	meshHandler.Add(&player);
 
@@ -178,14 +178,24 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 	collisionHandler.Add(&player.groundChecker);
-	meshHandler.Add(&player.groundChecker);
 
 	if (player.hitbox.InitializeBuffers(device.Get()) == false)
 	{
 		return false;
 	}
 	collisionHandler.Add(&player.hitbox);
-	meshHandler.Add(&player.hitbox);
+
+	std::vector<std::wstring> playerHeartSpriteSheet;
+	playerHeartSpriteSheet.push_back(L"PlayerHeart.png");
+	for (int i = 0; i < 3; i++)
+	{
+		if (player.heart[i].InitializeBuffers(device.Get(), playerHeartSpriteSheet) == false)
+		{
+			return false;
+		}
+		collisionHandler.Add(&player.heart[i]);
+		meshHandler.Add(&player.heart[i]);
+	}
 
 
 	std::vector<std::wstring> crabSpriteSheet;
@@ -206,7 +216,6 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 	collisionHandler.Add(&crab.hitbox);
-	meshHandler.Add(&crab.hitbox);
 
 	return true;
 }

@@ -40,7 +40,6 @@ public:
 	Vector3f Position() { return position; }
 	void SetPosition(float x, float y, float z);
 	void SetPosition(Vector3f position);
-
 	void UpdateCamera();
 
 private:

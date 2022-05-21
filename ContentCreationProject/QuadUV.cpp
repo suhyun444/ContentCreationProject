@@ -9,6 +9,10 @@ QuadUV::QuadUV()
 QuadUV::~QuadUV()
 {
 }
+void QuadUV::SetAnimationState(string name)
+{
+	curAnimationState = name;
+}
 bool QuadUV::InitializeBuffers(ID3D11Device* device)
 {
 	return false;

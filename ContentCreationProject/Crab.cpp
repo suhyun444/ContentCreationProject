@@ -7,6 +7,7 @@ Crab::Crab()
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.6f, 0.0f);
 	collisionOffset = Vector3f(0.0f, -0.46f, 0.0f);
+	sortingOrder = 29;
 	
 	animationTime = 0.0f;
 	animationIndex = 0;
@@ -63,7 +64,7 @@ void Crab::Update(float deltaTime)
 	}
 	
 	float distance = sqrt(pow(player->Position().x - position.x,2) + pow(player->Position().y - position.y, 2));
-	if (distance < 3 || isAttack)
+	if ((distance < 3 || isAttack) && !isDead)
 	{
 		attackTime += deltaTime;
 		if (attackTime > attackDelay)
@@ -121,7 +122,7 @@ void Crab::Collide(Mesh* collision)
 		{
 			unBeatTime = 0.0f;
 			hp--;
-			if (hp == 0)
+			if (hp <= 0)
 			{
 				ChangeAnimationState(CrabState::Dead);
 				isDead = true;

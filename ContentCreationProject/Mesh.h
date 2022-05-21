@@ -62,6 +62,7 @@ public:
 
 	void SetIsEnable(bool isEnable);
 	bool IsEnable() { return isEnable; }
+	int SortingOrder() { return sortingOrder; }
 
 protected:
 	MeshShader* meshShader;
@@ -85,4 +86,5 @@ protected:
 	string tag;
 	bool isTrigger = false;
 	bool isEnable = true;
+	int sortingOrder;
 };

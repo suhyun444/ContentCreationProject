@@ -8,6 +8,7 @@ Player::Player()
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.7f, 0.0f);
 	collisionOffset = Vector3f(0.0f, -0.41f, 0.0f);
+	sortingOrder = 30;
 
 	animationTime = 0.0f;
 	animationIndex = 0;
@@ -28,6 +29,14 @@ Player::Player()
 	hitbox.SetIsEnable(false);
 	hitbox.SetIsTrigger(true);
 	hitbox.SetTag("PlayerAttack");
+
+	for (int i = 0; i < 3; i++)
+	{
+		heart[i].SetAnimationState("PlayerHeart.png");
+		heart[i].SetIsTrigger(true);
+		heart[i].SetCollisionScale(0.0f, 0.0f,1.0f);
+		heart[i].SetScale(0.7f, 0.7f, 1.0f);
+	}
 }
 Player::~Player()
 {
@@ -48,7 +57,9 @@ void Player::Collide(Mesh* mesh)
 		if (unBeatTime > 0.5f)
 		{
 			unBeatTime = 0.0f;
-			std::cout << "playerhitted" << rand() % 40 << "\n";
+			curHp--;
+			if (curHp < 0)isEnable = false;
+			else heart[curHp].SetIsEnable(false);
 		}
 	}
 }
@@ -95,12 +106,23 @@ void Player::Update(float deltaTime)
 	{
 		ChangeAnimationState(PlayerState::Idle);
 	}
-	if (isAttack && 0.18 < attackTime && attackTime < 0.28f)hitbox.SetIsEnable(true);
-	if (isAttack && attackTime > 0.28f)hitbox.SetIsEnable(false);
+	if (isAttack)
+	{
+		if (0.18 < attackTime && attackTime < 0.28f)hitbox.SetIsEnable(true);
+		else hitbox.SetIsEnable(false);
+	}
 
-	
+	for (int i = 0; i < 3; i++)
+	{
+		heart[i].SetPosition(position.x - 5.5f + 0.5f * i, position.y + 4.0f, 0.0f);
+	}
+	if ((position - prevPosition).Length() > 0.01f) {
+		Vector3f cameraPosition = Vector3f(position.x, position.y + 1.0f, -5.0f);
+		camera->SetPosition(cameraPosition);
+	}
 	hitbox.SetPosition(position.x  + 0.3f * ((isLeft)? -1 : 1), position.y - 0.4f,0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
+	prevPosition = position;
 }
 void Player::Attack()
 {

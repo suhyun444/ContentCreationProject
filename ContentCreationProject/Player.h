@@ -2,7 +2,7 @@
 #include "QuadUV.h"
 #include "Quad.h"
 #include "GroundChecker.h"
-
+#include "Camera.h"
 enum class PlayerState
 {
 	Idle,
@@ -25,8 +25,11 @@ public:
 	void Attack();
 	GroundChecker groundChecker;
 	Quad hitbox;
+	QuadUV heart[3];
+	Camera* camera;
 	void Collide(Mesh* mesh) override;
 private:
+	Vector3f prevPosition;
 	float animationTime;
 	bool canJump = false;
 	bool isLeft = false;
@@ -37,6 +40,7 @@ private:
 	float attackDelay;
 	float attackTerm;
 
+	int curHp = 3;
 	float unBeatTime = 2.0;
 
 	int animationIndex;

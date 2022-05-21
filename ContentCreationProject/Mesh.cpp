@@ -9,7 +9,8 @@ Mesh::Mesh()
     collisionScale(Vector3f::Zero),
     collisionOffset(Vector3f::Zero),
     mass(200),
-    tag("default")
+    tag("default"),
+    sortingOrder(1)
 {
 }
 Mesh::Mesh(float _mass)
