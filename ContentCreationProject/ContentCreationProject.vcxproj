@@ -169,6 +169,7 @@
     <ClInclude Include="MeshShader.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PuzzleStone.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="QuadUV.h" />
     <ClInclude Include="Raycast.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="MeshShader.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PuzzleStone.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="QuadUV.cpp" />
     <ClCompile Include="Raycast.cpp" />

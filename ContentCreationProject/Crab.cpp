@@ -4,7 +4,7 @@ Crab::Crab()
 {
 	isLeft = false;
 	isTrigger = true;
-	position = Vector3f(3.0f, 1.0f, 0.0f);
+	position = Vector3f(1.5f, 1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.6f, 0.0f);
 	collisionOffset = Vector3f(0.0f, -0.46f, 0.0f);

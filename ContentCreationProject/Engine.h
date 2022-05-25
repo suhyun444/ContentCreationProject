@@ -12,6 +12,7 @@
 #include "Crab.h"
 #include "Timer.h"
 #include "Raycast.h"
+#include "PuzzleStone.h"
 
 class Engine : public DXApp
 {
@@ -42,7 +43,7 @@ private:
 	Player player;
 	Crab crab;
 	Quad quad;
-
+	PuzzleStone puzzleStone;
 	ComPtr<ID3D11Buffer> unitBuffer;
 };
 

@@ -76,6 +76,7 @@ void Engine::Update()
 	timer.Frame();
 	inputHandler.Frame();
 	if(crab.IsEnable())crab.Update(timer.GetTime());
+	puzzleStone.Update(timer.GetTime());
 
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
 	player.UpdateVelocity(x);
@@ -216,5 +217,13 @@ bool Engine::InitializeScene() {
 	}
 	collisionHandler.Add(&crab.hitbox);
 
+	std::vector<std::wstring> puzzleStoneSpriteSheet;
+	for (int i = 1; i < 12; i++)puzzleStoneSpriteSheet.push_back(L"PuzzleStone" + to_wstring(i) + L".png");
+	if (puzzleStone.InitializeBuffers(device.Get(),puzzleStoneSpriteSheet) == false)
+	{
+		return false;
+	}
+	collisionHandler.Add(&puzzleStone);
+	meshHandler.Add(&puzzleStone);
 	return true;
 }

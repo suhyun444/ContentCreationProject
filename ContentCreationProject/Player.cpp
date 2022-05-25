@@ -146,7 +146,7 @@ void Player::Attack()
 void Player::UpdateVelocity(int x)
 {
 	velocity.x = x * ((isAttack) ? 0.3f : 1.0f);
-	velocity.y -= 1.0f;
+	velocity.y -= 0.7f;
 	velocity.y = max(velocity.y, -2.5f);
 }
 void Player::Jump()
