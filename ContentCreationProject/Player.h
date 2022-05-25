@@ -1,5 +1,5 @@
 #pragma once
-#include "QuadUV.h"
+#include "Entity.h"
 #include "Quad.h"
 #include "GroundChecker.h"
 #include "Camera.h"
@@ -11,13 +11,12 @@ enum class PlayerState
 	Attack2,
 	Attack3
 };
-class Player : public QuadUV
+class Player : public Entity
 {
 public:
 	Player();
 	~Player();
-	void SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer) override;
-	void Update(float deltaTime);
+	void Update(float deltaTime) override;
 	void UpdateVelocity(int x);
 	void Jump();
 	void GroundCheck();
@@ -30,20 +29,12 @@ public:
 	void Collide(Mesh* mesh) override;
 private:
 	Vector3f prevPosition;
-	float animationTime;
 	bool canJump = false;
-	bool isLeft = false;
-	bool isAttack = false;
 	
 	int attackType;
-	float attackTime;
-	float attackDelay;
 	float attackTerm;
 
-	int curHp = 3;
-	float unBeatTime = 2.0;
 
-	int animationIndex;
 	PlayerState curState;
 	std::map<PlayerState, AnimationState> animationState;
 	AnimationState idleState;

@@ -193,7 +193,6 @@ bool Engine::InitializeScene() {
 		{
 			return false;
 		}
-		collisionHandler.Add(&player.heart[i]);
 		meshHandler.Add(&player.heart[i]);
 	}
 

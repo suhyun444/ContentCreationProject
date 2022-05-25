@@ -2,6 +2,7 @@
 #include <iostream>
 Crab::Crab()
 {
+	isLeft = false;
 	isTrigger = true;
 	position = Vector3f(3.0f, 1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
@@ -16,7 +17,7 @@ Crab::Crab()
 	InitAnimationState();
 
 	thinkTime = 0.0f;
-	thinkDelay = 3.0f;
+	thinkDelay = 0.0f;
 
 	hitbox.SetScale(0.0f, 0.0f, 1.0f);
 	hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
@@ -39,8 +40,8 @@ void Crab::Update(float deltaTime)
 
 	if (!isAttack && !isDead)
 	{
-		if (player->Position().x < position.x)isLeft = true;
-		else isLeft = false;
+		if (player->Position().x < position.x)isLeft = false;
+		else isLeft = true;
 
 		position = position + Vector3f(velocity.x, velocity.y, 0) * deltaTime;
 	}
@@ -64,7 +65,7 @@ void Crab::Update(float deltaTime)
 	}
 	
 	float distance = sqrt(pow(player->Position().x - position.x,2) + pow(player->Position().y - position.y, 2));
-	if ((distance < 3 || isAttack) && !isDead)
+	if ((distance < recognizeRange || isAttack) && !isDead)
 	{
 		attackTime += deltaTime;
 		if (attackTime > attackDelay)
@@ -98,7 +99,7 @@ void Crab::Update(float deltaTime)
 	if (isAttack && 0.5f < attackTime && attackTime < 0.6f)hitbox.SetIsEnable(true);
 	else hitbox.SetIsEnable(false);
 
-	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
+	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? 1 : -1), position.y - 0.4f, 0.0f);
 }
 void Crab::GroundCheck()
 {
@@ -121,8 +122,8 @@ void Crab::Collide(Mesh* collision)
 		if (unBeatTime > 0.5f)
 		{
 			unBeatTime = 0.0f;
-			hp--;
-			if (hp <= 0)
+			curHp--;
+			if (curHp <= 0)
 			{
 				ChangeAnimationState(CrabState::Dead);
 				isDead = true;
@@ -141,14 +142,6 @@ void Crab::Think()
 		thinkTime = 3.0f;
 		velocity.x = 0.0f;
 	}
-}
-void Crab::SetIsLeft(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer)
-{
-	Matrix4f unitInfo;
-	if (!isLeft)unitInfo.Get(0,0) = 1;
-	if (unBeatTime < 0.1f)unitInfo.Get(1, 1) = 1;
-	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
-	deviceContext->VSSetConstantBuffers(2, 1, &unitBuffer);
 }
 
 void Crab::InitAnimationState()

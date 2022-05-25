@@ -3,6 +3,7 @@
 
 Player::Player()
 {
+	isLeft = false;
 	isTrigger = true;
 	position = Vector3f(0.0f, -1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
@@ -19,7 +20,7 @@ Player::Player()
 	attackType = 0;
 	attackDelay = 0.38f;
 	attackTerm = 0.7f;
-	
+
 	groundChecker.InitializeCollideCallback(std::bind(&Player::GroundCheck, this));
 	groundChecker.SetScale(0.0f, 0.0f, 0.0f);
 	groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
@@ -34,21 +35,13 @@ Player::Player()
 	{
 		heart[i].SetAnimationState("PlayerHeart.png");
 		heart[i].SetIsTrigger(true);
-		heart[i].SetCollisionScale(0.0f, 0.0f,1.0f);
+		heart[i].SetCollisionScale(0.0f, 0.0f, 1.0f);
 		heart[i].SetScale(0.7f, 0.7f, 1.0f);
 	}
 }
 Player::~Player()
 {
-	
-}
-void Player::SetIsLeft(ID3D11DeviceContext* deviceContext , ID3D11Buffer* unitBuffer)
-{
-	Matrix4f unitInfo;
-	if (GetIsLeft())unitInfo.Get(0, 0) = 1;
-	if (unBeatTime < 0.1f)unitInfo.Get(1, 1) = 1;
-  	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
-	deviceContext->VSSetConstantBuffers(2, 1, &unitBuffer);
+
 }
 void Player::Collide(Mesh* mesh)
 {
@@ -116,11 +109,15 @@ void Player::Update(float deltaTime)
 	{
 		heart[i].SetPosition(position.x - 5.5f + 0.5f * i, position.y + 4.0f, 0.0f);
 	}
-	if ((position - prevPosition).Length() > 0.01f) {
-		Vector3f cameraPosition = Vector3f(position.x, position.y + 1.0f, -5.0f);
-		camera->SetPosition(cameraPosition);
-	}
-	hitbox.SetPosition(position.x  + 0.3f * ((isLeft)? -1 : 1), position.y - 0.4f,0.0f);
+	float yDifference = (prevPosition.y - position.y);
+	float cameraYPosition;
+	if (yDifference > 0.1f)
+		cameraYPosition = prevPosition.y + 1.0f;
+	else
+		cameraYPosition = position.y + 1.0f;
+	Vector3f cameraPosition = Vector3f(position.x, cameraYPosition, -5.0f);
+	camera->SetPosition(cameraPosition);
+	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
 	prevPosition = position;
 }
@@ -186,7 +183,7 @@ void Player::InitAnimationState()
 {
 	for (int i = 1; i < 9; i++)
 	{
-		idleState.frames.push_back({"PlayerIdle" + to_string(i) + ".png",0.1f});
+		idleState.frames.push_back({ "PlayerIdle" + to_string(i) + ".png",0.1f });
 	}
 	animationState.insert({ PlayerState::Idle,idleState });
 

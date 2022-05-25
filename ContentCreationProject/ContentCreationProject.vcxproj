@@ -159,6 +159,7 @@
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="GroundChecker.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="MathUtil.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="Crab.cpp" />
     <ClCompile Include="DXApp.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GroundChecker.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
