@@ -8,7 +8,7 @@ Player::Player()
 	position = Vector3f(0.0f, -1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.7f, 0.0f);
-	collisionOffset = Vector3f(0.0f, -0.41f, 0.0f);
+	collisionOffset = Vector3f(0.0f, -0.4f, 0.0f);
 	sortingOrder = 30;
 
 	animationTime = 0.0f;
@@ -109,17 +109,19 @@ void Player::Update(float deltaTime)
 	{
 		heart[i].SetPosition(position.x - 5.5f + 0.5f * i, position.y + 4.0f, 0.0f);
 	}
-	float yDifference = (prevPosition.y - position.y);
+	float yDifference = abs(prevPosition.y - position.y);
 	float cameraYPosition;
-	if (yDifference > 0.1f)
+	if (yDifference < 0.025f)
 		cameraYPosition = prevPosition.y + 1.0f;
 	else
+	{
 		cameraYPosition = position.y + 1.0f;
+		prevPosition = position;
+	}
 	Vector3f cameraPosition = Vector3f(position.x, cameraYPosition, -5.0f);
 	camera->SetPosition(cameraPosition);
 	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
-	prevPosition = position;
 }
 void Player::Attack()
 {

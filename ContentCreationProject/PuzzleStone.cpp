@@ -45,7 +45,7 @@ void PuzzleStone::Collide(Mesh* collision)
 		{
 			unBeatTime = 0.0f;
 			ChangeAnimationState(PuzzleStoneState::OnHit);
-			for (int i = 0; i < 2; i++)walls[i]->SetIsEnable(!walls[i]->IsEnable());
+			//for (int i = 0; i < 2; i++)walls[i]->SetIsEnable(!walls[i]->IsEnable());
 		}
 	}
 }

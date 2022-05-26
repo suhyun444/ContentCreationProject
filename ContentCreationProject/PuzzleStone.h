@@ -24,7 +24,5 @@ private:
 	std::map<PuzzleStoneState, AnimationState> animationState;
 	AnimationState idleState;
 	AnimationState onHitState;
-
-
 };
 

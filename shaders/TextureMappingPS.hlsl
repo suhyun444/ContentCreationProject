@@ -20,5 +20,5 @@ float4 main(ps_input input) : SV_TARGET
     {
         return float4(0.8f, 0.0f, 0.0f, color.a);
     }
-    return color;
+    return color * 1.4f;
 }

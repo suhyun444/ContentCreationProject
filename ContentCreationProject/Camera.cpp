@@ -109,28 +109,23 @@ void Camera::UpdateCamera()
 {
 	Matrix4f rotationMatrix = Matrix4f::Rotation(pitch, yaw, 0.0f);
 
-	// 카메라가 바라봐야하는 위치 조정.
 	look = rotationMatrix * Vector3f::Forward;
-	look = look.Normalized();	// 정규화.
+	look = look.Normalized();	
 
-	// 3인칭 카메라.
 	right = rotationMatrix * Vector3f::Right;
 	up = rotationMatrix * Vector3f::Up;
 	forward = rotationMatrix * Vector3f::Forward;
 
-	// 바라봐야하는 위치 조정.
 	look = position + look;
 	UpdateViewMatrix();
 }
 
 void Camera::UpdateViewMatrix()
 {
-	// 뷰 변환 행렬 만들기.
 	viewMatrix = Matrix4f::LookAt(position, look, up);
 }
 
 void Camera::UpdateProjectionMatrix()
 {
-	// 투영 변환 행렬 만들기.
 	projectionMatrix = Matrix4f::Perspective(fov, width, height, zNear, zFar);
 }

@@ -2,6 +2,22 @@
 #include <iostream>
 #include <random>
 
+struct point
+{
+	int x, y;
+};
+struct box
+{
+	point minPosition;
+	point maxPosition;
+	box()
+	{
+		minPosition.x = 2e9;
+		minPosition.y = 2e9;
+		maxPosition.x = -2e9;
+		maxPosition.y = -2e9;
+	}
+};
 CollisionHandler::CollisionHandler()
 {
 
@@ -19,6 +35,25 @@ void CollisionHandler::BoardPhase()
 		{
 			if (meshs[i]->Mass() == 0 && meshs[j]->Mass() == 0)continue;
 			if (!meshs[i]->IsEnable() || !meshs[j]->IsEnable())continue;
+			std::vector<Vector3f> mesh1Vertics = meshs[i]->GetVertics();
+			std::vector<Vector3f> mesh2Vertics = meshs[j]->GetVertics();
+			box a;
+			box b;
+			for (int i = 0; i < mesh1Vertics.size(); i++)
+			{
+				a.minPosition.x = min(mesh1Vertics[i].x, a.minPosition.x);
+				a.minPosition.y = min(mesh1Vertics[i].y, a.minPosition.y);
+				a.maxPosition.x = max(mesh1Vertics[i].x, a.maxPosition.x);
+				a.maxPosition.y = max(mesh1Vertics[i].y, a.maxPosition.y);
+
+				b.minPosition.x = min(mesh2Vertics[i].x, b.minPosition.x);
+				b.minPosition.y = min(mesh2Vertics[i].y, b.minPosition.y);
+				b.maxPosition.x = max(mesh2Vertics[i].x, b.maxPosition.x);
+				b.maxPosition.y = max(mesh2Vertics[i].y, b.maxPosition.y);
+
+			}
+			if (a.maxPosition.x < b.minPosition.x || a.minPosition.x > b.maxPosition.x) continue;
+			if (a.maxPosition.y < b.minPosition.y || a.minPosition.y > b.maxPosition.y) continue;
 			Collide(meshs[i], meshs[j]);
 		}
 	}
@@ -40,7 +75,7 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 	int verticesCount;
 	float minSeparation = 999999;
 	Vector3f MTV = Vector3f::Zero;
-	for (int ia = 0;ia<axes.size();ia++)
+	for (int ia = 0; ia < axes.size(); ia++)
 	{
 		float ra = 0;
 		verticesCount = mesh1Vertics.size();
@@ -96,7 +131,7 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		{
 			if (xDiff > mesh1->Scale().x / 2)
 				MTV.y = 0;
-			if(yDiff > mesh1->Scale().y / 2)
+			if (yDiff > mesh1->Scale().y / 2)
 				MTV.x = 0;
 			MTV.Normalized();
 			mesh2->SetPosition(mesh2->Position() - MTV * minSeparation);

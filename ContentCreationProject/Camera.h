@@ -6,7 +6,6 @@
 #include <wrl.h>
 using Microsoft::WRL::ComPtr;
 
-// 뷰 변환. / 투영 변환.
 class Camera
 {
 public:
@@ -15,22 +14,16 @@ public:
 	Camera(Camera& other);
 	~Camera() = default;
 
-	// 이동/회전.
 	void MoveForward(float velocity);
 	void MoveRight(float velocity);
 	void MoveUp(float velocity);
 
-	// Y축 회전.
 	void Yaw(float angle);
-	// X축 회전.
 	void Pitch(float angle);
 
-	// 상수 버퍼 생성/바인딩.
 	bool CreateBuffer(ID3D11Device* device);
 	void BindBuffer(ID3D11DeviceContext* deviceContext);
 
-	// Getter / Setter.
-	// 종횡비. 
 	float AspectRatio() { return (float)width / (float)height; }
 	void SetAspectRatio(float width, float height);
 
@@ -43,32 +36,30 @@ public:
 	void UpdateCamera();
 
 private:
-	// 투영 변환 관련 변수.
-	float fov;						// Field Of View(시야각).
-	float width;					// 화면 너비. (ex: 1280)
-	float height;					// 화면 높이. (ex: 800)
-	float zNear;					// 프러스텀 z 가까운 위치.
-	float zFar;						// 프러스텀 z 먼 위치.
+	float fov;						
+	float width;					
+	float height;					
+	float zNear;					
+	float zFar;				
 
 	Matrix4f projectionMatrix;
 
 	// 뷰 변환 관련 변수.
-	float yaw = 0.0f;				// Y축 회전 값.
-	float pitch = 0.0f;				// X축 회전 값.
+	float yaw = 0.0f;			
+	float pitch = 0.0f;		
 
-	Vector3f position;				// 카메라 위치.
+	Vector3f position;			
 
-	Vector3f forward;				// 앞방향.
-	Vector3f right;					// 오른쪽.
-	Vector3f up;					// 위.
+	Vector3f forward;			
+	Vector3f right;			
+	Vector3f up;		
 
-	Vector3f look;					// 바라보는 위치.
+	Vector3f look;			
 
-	Matrix4f viewMatrix;			// 뷰(카메라) 행렬.
+	Matrix4f viewMatrix;	
 
 	void UpdateViewMatrix();
 	void UpdateProjectionMatrix();
 
-	// 상수 버퍼 - 뷰/투영 행렬 전달용 버퍼.
 	ComPtr<ID3D11Buffer> cameraBuffer;
 };
