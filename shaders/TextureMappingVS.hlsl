@@ -35,23 +35,8 @@ vs_output main(vs_input input)
 	vs_output output;
 	output.position = mul(input.position, world);
 	output.position = mul(output.position, viewProjection);
-	output.texCoord = input.texCoord;
-	if (isLeft._11)
-	{
-		output.texCoord = float2(-input.texCoord.x, input.texCoord.y);
-	}
-	else
-	{
-		output.texCoord = float2(input.texCoord.x, input.texCoord.y);
-	}
-	if (isLeft._22)
-	{
-		output.hitCoord = float2(1,1);
-	}
-	else
-	{
-		output.hitCoord = float2(0, 0);
-	}
+	output.texCoord = lerp(float2(input.texCoord.x, input.texCoord.y), float2(-input.texCoord.x, input.texCoord.y), isLeft._11);
+	output.hitCoord = lerp(0, 1, isLeft._22);
 
 	return output;
 }

@@ -16,9 +16,6 @@ float4 main(ps_input input) : SV_TARGET
 {
     // 이미지의 색상 추출하기.
     float4 color = image.Sample(samplerState, input.texCoord);
-    if (input.hitCoord.x == 1)
-    {
-        return float4(0.8f, 0.0f, 0.0f, color.a);
-    }
-    return color * 1.4f;
+    float4 redColor = float4(0.8f, 0.0f, 0.0f, color.a);
+    return lerp(color, redColor, input.hitCoord.x) * 1.4f;
 }

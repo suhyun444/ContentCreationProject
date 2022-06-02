@@ -4,7 +4,6 @@ PuzzleStone::PuzzleStone()
 {
 	scale = Vector3f(1.0f, 1.0f, 1.0f);
 	collisionScale = Vector3f(1.0f, 0.5f, 1.0f);
-	position = Vector3f(3.0f, -2.0f, 0.0f);
 	isTrigger = true;
 	tag = "puzzleStone";
 	curAnimationState = "PuzzleStone1.png";
@@ -45,7 +44,7 @@ void PuzzleStone::Collide(Mesh* collision)
 		{
 			unBeatTime = 0.0f;
 			ChangeAnimationState(PuzzleStoneState::OnHit);
-			//for (int i = 0; i < 2; i++)walls[i]->SetIsEnable(!walls[i]->IsEnable());
+			for (int i = 0; i < walls.size(); i++)walls[i]->SetIsEnable(!walls[i]->IsEnable());
 		}
 	}
 }

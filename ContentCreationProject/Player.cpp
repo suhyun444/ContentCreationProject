@@ -25,6 +25,8 @@ Player::Player()
 	groundChecker.SetScale(0.0f, 0.0f, 0.0f);
 	groundChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 
+	headChecker.InitializeCollideCallback(std::bind(&Player::HeadCheck, this));
+	headChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	hitbox.SetScale(0.0f, 0.0f, 1.0f);
 	hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
 	hitbox.SetIsEnable(false);
@@ -42,6 +44,10 @@ Player::Player()
 Player::~Player()
 {
 
+}
+void Player::HeadCheck()
+{
+	velocity.y = -0.5f;
 }
 void Player::Collide(Mesh* mesh)
 {
@@ -105,10 +111,6 @@ void Player::Update(float deltaTime)
 		else hitbox.SetIsEnable(false);
 	}
 
-	for (int i = 0; i < 3; i++)
-	{
-		heart[i].SetPosition(position.x - 5.5f + 0.5f * i, position.y + 4.0f, 0.0f);
-	}
 	float yDifference = abs(prevPosition.y - position.y);
 	float cameraYPosition;
 	if (yDifference < 0.025f)
@@ -121,7 +123,12 @@ void Player::Update(float deltaTime)
 	Vector3f cameraPosition = Vector3f(position.x, cameraYPosition, -5.0f);
 	camera->SetPosition(cameraPosition);
 	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
-	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0));
+	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0.0f));
+	headChecker.SetPosition(Vector3f(position.x, position.y,0.0f));
+	for (int i = 0; i < 3; i++)
+	{
+		heart[i].SetPosition(cameraPosition.x - 5.5f + 0.5f * i, cameraPosition.y + 3.0f, 0.0f);
+	}
 }
 void Player::Attack()
 {
@@ -145,21 +152,32 @@ void Player::Attack()
 		attackTime = 0.0f;
 	}
 }
-void Player::UpdateVelocity(int x)
+void Player::UpdateVelocity(int x,float deltaTime)
 {
-	velocity.x = x * ((isAttack) ? 0.3f : 1.0f);
-	velocity.y -= 0.7f;
-	velocity.y = max(velocity.y, -2.5f);
+	deltaTime /= 1000;
+	velocity.x = x * ((isAttack) ? 0.3f : 2.0f);
+	//if (velocity.y >= 0)
+	//{
+	//	velocity.y -= 0.7f;
+	//	velocity.y = max(velocity.y, -1.5f);
+	//}
+	//else
+	//{
+		velocity.y -= 9.8f * deltaTime;
+		velocity.y = max(velocity.y, -3.5f);
+	//}
+		cout << velocity.y << "\n";
 }
 void Player::Jump()
 {
-	if (!canJump)return;
-	canJump = false;
-	velocity.y = 12.0f;
+	if (jumpCount == 0)return;
+	jumpCount--;
+	velocity.y = 4.0f;
 }
 void Player::GroundCheck()
 {
-	canJump = true;
+	velocity.y = -0.5f;
+	jumpCount = 2;
 }
 std::string GetFirstTextureName(PlayerState state)
 {

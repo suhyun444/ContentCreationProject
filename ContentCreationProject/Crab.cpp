@@ -119,6 +119,7 @@ void Crab::Collide(Mesh* collision)
 {
 	if (collision->Tag() == "PlayerAttack")
 	{
+		if (isDead)return;
 		if (unBeatTime > 0.5f)
 		{
 			unBeatTime = 0.0f;

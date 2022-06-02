@@ -17,19 +17,21 @@ public:
 	Player();
 	~Player();
 	void Update(float deltaTime) override;
-	void UpdateVelocity(int x);
+	void UpdateVelocity(int x, float deltaTime);
 	void Jump();
 	void GroundCheck();
+	void HeadCheck();
 	bool GetIsLeft() { return isLeft; }
 	void Attack();
 	GroundChecker groundChecker;
+	GroundChecker headChecker;
 	Quad hitbox;
 	QuadUV heart[3];
 	Camera* camera;
 	void Collide(Mesh* mesh) override;
 private:
 	Vector3f prevPosition;
-	bool canJump = false;
+	int jumpCount = 2;
 	
 	int attackType;
 	float attackTerm;

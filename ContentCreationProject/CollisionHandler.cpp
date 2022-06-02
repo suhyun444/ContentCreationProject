@@ -71,9 +71,9 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 	for (int i = 0; i < mesh2Vertics.size(); i++)
 		axes.push_back(mesh2Vertics[i] - mesh2Vertics[(i + 1) % mesh2Vertics.size()]);
 
-	float separation = 999999;
+	float separation = 2e9;
 	int verticesCount;
-	float minSeparation = 999999;
+	float minSeparation = 2e9;
 	Vector3f MTV = Vector3f::Zero;
 	for (int ia = 0; ia < axes.size(); ia++)
 	{
@@ -129,21 +129,41 @@ void CollisionHandler::Collide(Mesh* mesh1, Mesh* mesh2)
 		if (type == -1) type = (mesh1->Mass() > mesh2->Mass()) ? 0 : 1;
 		if (type == 0)
 		{
-			if (xDiff > mesh1->Scale().x / 2)
+			if (xDiff > (mesh1->Scale().x / 2) + (mesh2->Scale().x * 0.1f))
+			{
+				MTV.x = ((mesh1->Position().x < mesh2->Position().x) ? -1.0f : 1.0f);
 				MTV.y = 0;
-			if (yDiff > mesh1->Scale().y / 2)
+			}
+			else if (yDiff > mesh1->Scale().y / 2)
+			{
 				MTV.x = 0;
-			MTV.Normalized();
+				MTV.y = ((mesh1->Position().y < mesh2->Position().y)? -1.0f : 1.0f);
+			}
+			else if (MTV.x != 0 && MTV.y != 0)
+			{
+				MTV.x = 0;
+				MTV.y = ((mesh1->Position().y < mesh2->Position().y) ? -1.0f : 1.0f);
+			}
 			mesh2->SetPosition(mesh2->Position() - MTV * minSeparation);
 		}
 		else
 		{
-			if (xDiff > mesh2->Scale().x / 2)
+			if (xDiff > (mesh2->Scale().x / 2) + (mesh1->Scale().x * 0.1f))
+			{
+				MTV.x = ((mesh2->Position().x < mesh1->Position().x) ? -1.0f : 1.0f);
 				MTV.y = 0;
-			if (yDiff > mesh2->Scale().y / 2)
+			}
+			else if (yDiff > mesh2->Scale().y / 2)
+			{
 				MTV.x = 0;
-			MTV.Normalized();
-			mesh1->SetPosition(mesh1->Position() + MTV * minSeparation);
+				MTV.y = ((mesh2->Position().y < mesh1->Position().y) ? -1.0f : 1.0f);
+			}
+			else if (MTV.x != 0 && MTV.y != 0)
+			{
+				MTV.x = 0;
+				MTV.y = ((mesh2->Position().y < mesh1->Position().y) ? -1.0f : 1.0f);
+			}
+			mesh1->SetPosition(mesh1->Position() - MTV * minSeparation);
 		}
 		mesh1->Collide(mesh2);
 		mesh2->Collide(mesh1);

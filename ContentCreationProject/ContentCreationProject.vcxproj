@@ -168,6 +168,7 @@
     <ClInclude Include="MeshHandler.h" />
     <ClInclude Include="MeshShader.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PuzzleStone.h" />
     <ClInclude Include="Quad.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="MeshHandler.cpp" />
     <ClCompile Include="MeshShader.cpp" />
     <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PuzzleStone.cpp" />
     <ClCompile Include="Quad.cpp" />

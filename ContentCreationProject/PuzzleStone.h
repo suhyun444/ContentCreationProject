@@ -11,7 +11,7 @@ public:
 	PuzzleStone();
 	~PuzzleStone();
 	void Update(float deltaTime);
-	QuadUV* walls[2];
+	vector<Mesh*> walls;
 	void Collide(Mesh* collision) override;
 
 private:

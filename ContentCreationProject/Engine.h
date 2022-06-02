@@ -13,6 +13,7 @@
 #include "Timer.h"
 #include "Raycast.h"
 #include "PuzzleStone.h"
+#include "Platform.h"
 
 class Engine : public DXApp
 {
@@ -42,8 +43,16 @@ private:
 
 	Player player;
 	Crab crab;
-	Quad quad;
-	PuzzleStone puzzleStone;
+	Quad quad[9];
+	Platform platformsA[20];
+	Platform platformsB[4];
+	Platform platformsC[10];
+	Platform platformsD[40];
+	Platform platformsE[4];
+	Platform platformsF[4];
+	Platform platformsG[4];
+	PuzzleStone puzzleStone[4];
+	QuadUV backGround;
 	ComPtr<ID3D11Buffer> unitBuffer;
 };
 
