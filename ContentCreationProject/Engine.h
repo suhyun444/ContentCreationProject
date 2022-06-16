@@ -42,8 +42,8 @@ private:
 	Camera camera;
 
 	Player player;
-	Crab crab;
-	Quad quad[9];
+	Crab crab[8];
+	Quad quad[13];
 	Platform platformsA[20];
 	Platform platformsB[4];
 	Platform platformsC[10];
@@ -51,8 +51,13 @@ private:
 	Platform platformsE[4];
 	Platform platformsF[4];
 	Platform platformsG[4];
-	PuzzleStone puzzleStone[4];
+	Platform platformsH[2];
+	Platform platformsI[9];
+	PuzzleStone puzzleStone[6];
 	QuadUV backGround;
+	QuadUV door;
+	QuadUV clear;
+	QuadUV dead;
 	ComPtr<ID3D11Buffer> unitBuffer;
 };
 

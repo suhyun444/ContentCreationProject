@@ -49,7 +49,7 @@ Matrix4f Matrix4f::Rotation(Vector3f rotation)
 
 Matrix4f Matrix4f::Rotation(float x, float y, float z)
 {
-	return RotationY(y) * RotationY(y) * RotationZ(z);
+	return RotationX(x) * RotationY(y) * RotationZ(z);
 }
 
 Matrix4f Matrix4f::RotationX(float angle)

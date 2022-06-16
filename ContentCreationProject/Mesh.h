@@ -63,6 +63,7 @@ public:
 	void SetIsEnable(bool isEnable);
 	bool IsEnable() { return isEnable; }
 	int SortingOrder() { return sortingOrder; }
+	void SetSoringOrder(int order);
 
 protected:
 	MeshShader* meshShader;

@@ -11,13 +11,13 @@ protected:
 	bool isLeft = true;
 	bool isAttack = false;
 
-	float unBeatTime = 2.0;
+	float unBeatTime = 2.0f;
 	int curHp = 3;
 
 	float animationTime;
 	int animationIndex;
 
 	float attackTime = 0.0f;
-	float attackDelay = 3.0f;
+	float attackDelay;
 };
 

@@ -4,7 +4,6 @@ Crab::Crab()
 {
 	isLeft = false;
 	isTrigger = true;
-	position = Vector3f(1.5f, 1.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.6f, 0.0f);
 	collisionOffset = Vector3f(0.0f, -0.46f, 0.0f);
@@ -18,7 +17,7 @@ Crab::Crab()
 
 	thinkTime = 0.0f;
 	thinkDelay = 0.0f;
-
+	attackDelay = 2.5f + (float)(rand() % 100) / 100;
 	hitbox.SetScale(0.0f, 0.0f, 1.0f);
 	hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
 	hitbox.SetIsEnable(false);
@@ -72,6 +71,7 @@ void Crab::Update(float deltaTime)
 		{
 			isAttack = true;
 			attackTime = 0.0f;
+			attackDelay = 2.5f + (float)(rand() % 100) / 100;
 			ChangeAnimationState(CrabState::Attack);
 		}
 	}
@@ -135,9 +135,9 @@ void Crab::Collide(Mesh* collision)
 
 void Crab::Think()
 {
-	int type = rand() % 3;
-	if (type == 0) velocity.x = -1;
-	else if(type == 1)velocity.x = 1;
+	int type = rand() % 9;
+	if (type < 4) velocity.x = -1;
+	else if(type < 9)velocity.x = 1;
 	else
 	{
 		thinkTime = 3.0f;

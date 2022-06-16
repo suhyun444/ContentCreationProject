@@ -2,7 +2,7 @@
 
 Mesh::Mesh()
     : vertexCount(0), vertexBuffer(0), inputLayout(0),
-    transform(), // transform(TransformBuffer())랑 같음.
+    transform(),
     position(Vector3f::Zero),
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
@@ -15,7 +15,7 @@ Mesh::Mesh()
 }
 Mesh::Mesh(float _mass)
     : vertexCount(0), vertexBuffer(0), inputLayout(0),
-    transform(), // transform(TransformBuffer())랑 같음.
+    transform(), 
     position(Vector3f::Zero),
     rotation(Vector3f::Zero),
     scale(Vector3f::One),
@@ -72,20 +72,19 @@ void Mesh::RenderBuffers(ID3D11DeviceContext* deviceContext)
 void Mesh::BindBuffers(ID3D11DeviceContext* deviceContext)
 {
     // Bind
-    unsigned int stride = sizeof(Vertex); // 한번에 몇 개씩 읽을 지.
+    unsigned int stride = sizeof(Vertex); 
     unsigned int offset = 0;
 
     deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
     deviceContext->IASetInputLayout(inputLayout.Get());
-    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선을 그릴 때는 LineList.
+    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); 
 
     transform.Bind(deviceContext);
 }
 
 void Mesh::DrawBuffers(ID3D11DeviceContext* deviceContext)
 {
-    // Draw
-    deviceContext->Draw(vertexCount, 0); // 이게 DrawCall이다.
+    deviceContext->Draw(vertexCount, 0); 
 }
 
 void Mesh::UpdateBuffers(ID3D11DeviceContext* deviceContext)
@@ -154,4 +153,8 @@ void Mesh::SetIsTrigger(bool isTrigger)
 void Mesh::SetIsEnable(bool isEnable)
 {
     this->isEnable = isEnable;
+}
+void Mesh::SetSoringOrder(int order)
+{
+    sortingOrder = order;
 }

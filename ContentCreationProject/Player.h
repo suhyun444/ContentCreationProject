@@ -28,6 +28,8 @@ public:
 	Quad hitbox;
 	QuadUV heart[3];
 	Camera* camera;
+	QuadUV* clear;
+	QuadUV* gameOver;
 	void Collide(Mesh* mesh) override;
 private:
 	Vector3f prevPosition;

@@ -75,8 +75,8 @@ void Engine::Update()
 {
 	timer.Frame();
 	inputHandler.Frame();
-	if (crab.IsEnable())crab.Update(timer.GetTime());
-	for (int i = 0; i < 4; i++)puzzleStone[i].Update(timer.GetTime());
+	for (int i = 0; i < 8; i++)if (crab[i].IsEnable())crab[i].Update(timer.GetTime());
+	for (int i = 0; i < 6; i++)puzzleStone[i].Update(timer.GetTime());
 
 	int x = (inputHandler.IsKeyPressed(DIK_RIGHTARROW) ? 1 : 0) + (inputHandler.IsKeyPressed(DIK_LEFTARROW) ? -1 : 0);
 	player.UpdateVelocity(x, timer.GetTime());
@@ -151,6 +151,9 @@ bool Engine::InitializeScene() {
 
 	raycast.Initialize();
 	raycast.collisionHandler = &collisionHandler;
+
+#pragma region  InitMap
+
 
 	std::vector<std::wstring> BackGroundSpriteSheet;
 	BackGroundSpriteSheet.push_back(L"BackGround.png");
@@ -243,6 +246,72 @@ bool Engine::InitializeScene() {
 	quad[6].SetIsEnable(false);
 	quad[6].SetTag("Ground");
 
+	if (quad[7].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[7].SetPosition(-15.0f, 4.0f, 0.0f);
+	quad[7].SetScale(20.0f, 20.0f, 1.0f);
+	quad[7].SetMass(0);
+	collisionHandler.Add(&quad[7]);
+	meshHandler.Add(&quad[7]);
+	quad[7].SetTag("Ground");
+
+	if (quad[8].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[8].SetPosition(39.0f, 4.0f, 0.0f);
+	quad[8].SetScale(20.0f, 20.0f, 1.0f);
+	quad[8].SetMass(0);
+	collisionHandler.Add(&quad[8]);
+	meshHandler.Add(&quad[8]);
+	quad[8].SetTag("Ground");
+
+	if (quad[9].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[9].SetPosition(23.0f, -3.5f, 0.0f);
+	quad[9].SetScale(1.0f, 0.3f, 1.0f);
+	quad[9].SetMass(0);
+	collisionHandler.Add(&quad[9]);
+	meshHandler.Add(&quad[9]);
+	quad[9].SetIsEnable(false);
+	quad[9].SetTag("Ground");
+
+	if (quad[10].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[10].SetPosition(24.65f, -3.5f, 0.0f);
+	quad[10].SetScale(0.3f, 2.0f, 1.0f);
+	quad[10].SetMass(0);
+	collisionHandler.Add(&quad[10]);
+	meshHandler.Add(&quad[10]);
+	quad[10].SetTag("Ground");
+
+	if (quad[11].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[11].SetPosition(27.0f, -3.5f, 0.0f);
+	quad[11].SetScale(0.3f, 2.0f, 1.0f);
+	quad[11].SetMass(0);
+	collisionHandler.Add(&quad[11]);
+	meshHandler.Add(&quad[11]);
+	quad[11].SetTag("Ground");
+	//quad[11].SetIsEnable(false);
+	if (quad[12].InitializeBuffers(device.Get()) == false)
+	{
+		return false;
+	}
+	quad[12].SetPosition(27.5f, -2.35f, 0.0f);
+	quad[12].SetScale(6.0f, 0.3f, 1.0f);
+	quad[12].SetMass(0);
+	collisionHandler.Add(&quad[12]);
+	meshHandler.Add(&quad[12]);
+	quad[12].SetTag("Ground");
 
 	std::vector<std::wstring>SandSpriteSheet;
 	for (int i = 1; i < 4; i++)SandSpriteSheet.push_back(L"Sand" + to_wstring(i) + L".png");
@@ -313,6 +382,27 @@ bool Engine::InitializeScene() {
 		meshHandler.Add(&platformsG[i]);
 		platformsG[i].SetIsEnable(false);
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		if (platformsH[i].InitializeBuffers(device.Get(), SandSpriteSheet) == false)
+		{
+			return false;
+		}
+		platformsH[i].SetPosition(22.75f + i * 0.5f, -3.4f, 0.0f);
+		meshHandler.Add(&platformsH[i]);
+		platformsH[i].SetIsEnable(false);
+	}
+	for (int i = 0; i < 9; i++)
+	{
+		if (platformsI[i].InitializeBuffers(device.Get(), SandSpriteSheet) == false)
+		{
+			return false;
+		}
+		platformsI[i].SetPosition(24.75f + i * 0.5f, -2.25f, 0.0f);
+		meshHandler.Add(&platformsI[i]);
+	}
+
+
 
 	std::vector<std::wstring> playerSpriteSheet;
 	for (int i = 1; i < 9; i++)playerSpriteSheet.push_back(L"PlayerIdle" + to_wstring(i) + L".png");
@@ -362,19 +452,27 @@ bool Engine::InitializeScene() {
 	for (int i = 1; i < 10; i++)crabSpriteSheet.push_back(L"CrabWalk" + to_wstring(i) + L".png");
 	for (int i = 1; i < 13; i++)crabSpriteSheet.push_back(L"CrabAttack" + to_wstring(i) + L".png");
 	for (int i = 1; i < 19; i++)crabSpriteSheet.push_back(L"CrabDead" + to_wstring(i) + L".png");
-	if (crab.InitializeBuffers(device.Get(), crabSpriteSheet) == false)
+	Vector3f crabPositions[8] = { Vector3f(1.5f, -2.0f, 0.0f), Vector3f(-0.5f, -2.0f, 0.0f), Vector3f(12.0f,-4.0f,0.0f), Vector3f(16.0f,-4.0f,0.0f) ,
+								Vector3f(18.0f,-4.0f,0.0f) ,Vector3f(20.0f,-4.0f,0.0f), Vector3f(22.0f,-4.0f,0.0f), Vector3f(27.0f, -1.70f, 0.0f) };
+	for (int i = 0; i < 8; i++)
 	{
-		return false;
-	}
-	crab.SetPlayer(&player);
-	collisionHandler.Add(&crab);
-	meshHandler.Add(&crab);
+		if (crab[i].InitializeBuffers(device.Get(), crabSpriteSheet) == false)
+		{
+			return false;
+		}
+		crab[i].SetPlayer(&player);
+		collisionHandler.Add(&crab[i]);
+		meshHandler.Add(&crab[i]);
+		crab[i].SetPosition(crabPositions[i]);
 
-	if (crab.hitbox.InitializeBuffers(device.Get()) == false)
-	{
-		return false;
+		if (crab[i].hitbox.InitializeBuffers(device.Get()) == false)
+		{
+			return false;
+		}
+		collisionHandler.Add(&crab[i].hitbox);
 	}
-	collisionHandler.Add(&crab.hitbox);
+
+
 
 	std::vector<std::wstring> puzzleStoneSpriteSheet;
 	for (int i = 1; i < 12; i++)puzzleStoneSpriteSheet.push_back(L"PuzzleStone" + to_wstring(i) + L".png");
@@ -421,6 +519,70 @@ bool Engine::InitializeScene() {
 	collisionHandler.Add(&puzzleStone[3]);
 	meshHandler.Add(&puzzleStone[3]);
 	puzzleStone[3].SetIsEnable(false);
+
+	if (puzzleStone[4].InitializeBuffers(device.Get(), puzzleStoneSpriteSheet) == false)
+	{
+		return false;
+	}
+	puzzleStone[4].SetPosition(22.0f, -4.0f, 0.0f);
+	puzzleStone[4].walls.push_back(&quad[9]);
+	puzzleStone[4].walls.push_back(&quad[11]);
+	for (int i = 0; i < 2; i++)puzzleStone[4].walls.push_back(&platformsH[i]);
+	collisionHandler.Add(&puzzleStone[4]);
+	meshHandler.Add(&puzzleStone[4]);
+
+	if (puzzleStone[5].InitializeBuffers(device.Get(), puzzleStoneSpriteSheet) == false)
+	{
+		return false;
+	}
+	puzzleStone[5].SetPosition(26.4f, -1.70f, 0.0f);
+	puzzleStone[5].walls.push_back(&quad[10]);
+	puzzleStone[5].walls.push_back(&quad[11]);
+	collisionHandler.Add(&puzzleStone[5]);
+	meshHandler.Add(&puzzleStone[5]);
+
+	std::vector<std::wstring> doorSpriteSheet;
+	doorSpriteSheet.push_back(L"Door.png");
+	if (door.InitializeBuffers(device.Get(), doorSpriteSheet) == false)
+	{
+		return false;
+	}
+	door.SetPosition(28.3f, -4.15f, 0.0f);
+	door.SetScale(0.7f, 0.7f, 1.0f);
+	door.SetAnimationState("Door.png");
+	door.SetTag("Door");
+	collisionHandler.Add(&door);
+	meshHandler.Add(&door);
+
+	std::vector<std::wstring> clearSpriteSheet;
+	clearSpriteSheet.push_back(L"Clear.png");
+	if (clear.InitializeBuffers(device.Get(), clearSpriteSheet) == false)
+	{
+		return false;
+	}
+	clear .SetPosition(0, 0, 0.0f);
+	clear.SetScale(1.0f, 1.0f, 1.0f);
+	clear.SetAnimationState("Clear.png");
+	collisionHandler.Add(&clear);
+	meshHandler.Add(&clear);
+	clear.SetIsEnable(false);
+
+	std::vector<std::wstring> gameoverSpirteSheet;
+	gameoverSpirteSheet.push_back(L"GameOver.png");
+	if (dead.InitializeBuffers(device.Get(), gameoverSpirteSheet) == false)
+	{
+		return false;
+	}
+	dead.SetPosition(0, 0, 0.0f);
+	dead.SetScale(16, 9, 1);
+	dead.SetAnimationState("GameOver.png");
+	//dead.SortingOrder(0);
+	collisionHandler.Add(&dead);
+	meshHandler.Add(&dead);
+	//dead.SetIsEnable(false);
+	player.clear = &clear;
+	player.gameOver = &dead;
+#pragma endregion
 
 
 	return true;

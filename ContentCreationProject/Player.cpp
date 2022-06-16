@@ -5,7 +5,7 @@ Player::Player()
 {
 	isLeft = false;
 	isTrigger = true;
-	position = Vector3f(0.0f, -1.0f, 0.0f);
+	position = Vector3f(0.0f, -2.0f, 0.0f);
 	scale = Vector3f(1.5f, 1.5f, 1.0f);
 	collisionScale = Vector3f(0.6f, 0.7f, 0.0f);
 	collisionOffset = Vector3f(0.0f, -0.4f, 0.0f);
@@ -28,7 +28,7 @@ Player::Player()
 	headChecker.InitializeCollideCallback(std::bind(&Player::HeadCheck, this));
 	headChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	hitbox.SetScale(0.0f, 0.0f, 1.0f);
-	hitbox.SetCollisionScale(0.7f, 0.5f, 1.0f);
+	hitbox.SetCollisionScale(0.5f, 0.5f, 1.0f);
 	hitbox.SetIsEnable(false);
 	hitbox.SetIsTrigger(true);
 	hitbox.SetTag("PlayerAttack");
@@ -57,9 +57,18 @@ void Player::Collide(Mesh* mesh)
 		{
 			unBeatTime = 0.0f;
 			curHp--;
-			if (curHp < 0)isEnable = false;
+			if (curHp == 0)
+			{
+				heart[curHp].SetIsEnable(false);
+				isEnable = false;
+				gameOver->SetIsEnable(true);
+			}
 			else heart[curHp].SetIsEnable(false);
 		}
+	}
+	else if (mesh->Tag() == "Door")
+	{
+		isEnable = false;
 	}
 }
 
@@ -122,13 +131,15 @@ void Player::Update(float deltaTime)
 	}
 	Vector3f cameraPosition = Vector3f(position.x, cameraYPosition, -5.0f);
 	camera->SetPosition(cameraPosition);
-	hitbox.SetPosition(position.x + 0.3f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
+	hitbox.SetPosition(position.x + 0.1f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0.0f));
 	headChecker.SetPosition(Vector3f(position.x, position.y,0.0f));
 	for (int i = 0; i < 3; i++)
 	{
 		heart[i].SetPosition(cameraPosition.x - 5.5f + 0.5f * i, cameraPosition.y + 3.0f, 0.0f);
 	}
+	clear->SetPosition(camera->Position().x, camera->Position().y, 0.0f);
+	gameOver->SetPosition(camera->Position().x, camera->Position().y, 0.0f);
 }
 void Player::Attack()
 {
