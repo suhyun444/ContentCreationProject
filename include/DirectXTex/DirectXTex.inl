@@ -14,28 +14,28 @@
 //=====================================================================================
 // Bitmask flags enumerator operators
 //=====================================================================================
-DEFINE_ENUM_FLAG_OPERATORS(CP_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(DDS_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(TGA_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(WIC_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(TEX_FR_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(TEX_FILTER_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(TEX_PMALPHA_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(TEX_COMPRESS_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(CNMAP_FLAGS);
-DEFINE_ENUM_FLAG_OPERATORS(CMSE_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::CP_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::DDS_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::TGA_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::WIC_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::TEX_FR_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::TEX_FILTER_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::TEX_PMALPHA_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::TEX_COMPRESS_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::CNMAP_FLAGS);
+DEFINE_ENUM_FLAG_OPERATORS(DirectX::CMSE_FLAGS);
 
 // WIC_FILTER modes match TEX_FILTER modes
-constexpr WIC_FLAGS operator|(WIC_FLAGS a, TEX_FILTER_FLAGS b) { return static_cast<WIC_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & TEX_FILTER_MODE_MASK)); }
-constexpr WIC_FLAGS operator|(TEX_FILTER_FLAGS a, WIC_FLAGS b) { return static_cast<WIC_FLAGS>(static_cast<unsigned long>(a & TEX_FILTER_MODE_MASK) | static_cast<unsigned long>(b)); }
+constexpr DirectX::WIC_FLAGS operator|(DirectX::WIC_FLAGS a, DirectX::TEX_FILTER_FLAGS b) { return static_cast<DirectX::WIC_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & DirectX::TEX_FILTER_MODE_MASK)); }
+constexpr DirectX::WIC_FLAGS operator|(DirectX::TEX_FILTER_FLAGS a, DirectX::WIC_FLAGS b) { return static_cast<DirectX::WIC_FLAGS>(static_cast<unsigned long>(a & DirectX::TEX_FILTER_MODE_MASK) | static_cast<unsigned long>(b)); }
 
 // TEX_PMALPHA_SRGB match TEX_FILTER_SRGB
-constexpr TEX_PMALPHA_FLAGS operator|(TEX_PMALPHA_FLAGS a, TEX_FILTER_FLAGS b) { return static_cast<TEX_PMALPHA_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & TEX_FILTER_SRGB_MASK)); }
-constexpr TEX_PMALPHA_FLAGS operator|(TEX_FILTER_FLAGS a, TEX_PMALPHA_FLAGS b) { return static_cast<TEX_PMALPHA_FLAGS>(static_cast<unsigned long>(a & TEX_FILTER_SRGB_MASK) | static_cast<unsigned long>(b)); }
+constexpr DirectX::TEX_PMALPHA_FLAGS operator|(DirectX::TEX_PMALPHA_FLAGS a, DirectX::TEX_FILTER_FLAGS b) { return static_cast<DirectX::TEX_PMALPHA_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & DirectX::TEX_FILTER_SRGB_MASK)); }
+constexpr DirectX::TEX_PMALPHA_FLAGS operator|(DirectX::TEX_FILTER_FLAGS a, DirectX::TEX_PMALPHA_FLAGS b) { return static_cast<DirectX::TEX_PMALPHA_FLAGS>(static_cast<unsigned long>(a & DirectX::TEX_FILTER_SRGB_MASK) | static_cast<unsigned long>(b)); }
 
 // TEX_COMPRESS_SRGB match TEX_FILTER_SRGB
-constexpr TEX_COMPRESS_FLAGS operator|(TEX_COMPRESS_FLAGS a, TEX_FILTER_FLAGS b) { return static_cast<TEX_COMPRESS_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & TEX_FILTER_SRGB_MASK)); }
-constexpr TEX_COMPRESS_FLAGS operator|(TEX_FILTER_FLAGS a, TEX_COMPRESS_FLAGS b) { return static_cast<TEX_COMPRESS_FLAGS>(static_cast<unsigned long>(a & TEX_FILTER_SRGB_MASK) | static_cast<unsigned long>(b)); }
+constexpr DirectX::TEX_COMPRESS_FLAGS operator|(DirectX::TEX_COMPRESS_FLAGS a, DirectX::TEX_FILTER_FLAGS b) { return static_cast<DirectX::TEX_COMPRESS_FLAGS>(static_cast<unsigned long>(a) | static_cast<unsigned long>(b & DirectX::TEX_FILTER_SRGB_MASK)); }
+constexpr DirectX::TEX_COMPRESS_FLAGS operator|(DirectX::TEX_FILTER_FLAGS a, DirectX::TEX_COMPRESS_FLAGS b) { return static_cast<DirectX::TEX_COMPRESS_FLAGS>(static_cast<unsigned long>(a & DirectX::TEX_FILTER_SRGB_MASK) | static_cast<unsigned long>(b)); }
 
 
 //=====================================================================================
@@ -121,31 +121,31 @@ inline bool __cdecl IsSRGB(DXGI_FORMAT fmt) noexcept
 // Image I/O
 //=====================================================================================
 _Use_decl_annotations_
-inline HRESULT __cdecl SaveToDDSMemory(const Image& image, DDS_FLAGS flags, Blob& blob) noexcept
+inline HRESULT __cdecl SaveToDDSMemory(const DirectX::Image& image, DirectX::DDS_FLAGS flags, DirectX::Blob& blob) noexcept
 {
-    TexMetadata mdata = {};
+    DirectX::TexMetadata mdata = {};
     mdata.width = image.width;
     mdata.height = image.height;
     mdata.depth = 1;
     mdata.arraySize = 1;
     mdata.mipLevels = 1;
     mdata.format = image.format;
-    mdata.dimension = TEX_DIMENSION_TEXTURE2D;
+    mdata.dimension = DirectX::TEX_DIMENSION_TEXTURE2D;
 
     return SaveToDDSMemory(&image, 1, mdata, flags, blob);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl SaveToDDSFile(const Image& image, DDS_FLAGS flags, const wchar_t* szFile) noexcept
+inline HRESULT __cdecl SaveToDDSFile(const DirectX::Image& image, DirectX::DDS_FLAGS flags, const wchar_t* szFile) noexcept
 {
-    TexMetadata mdata = {};
+    DirectX::TexMetadata mdata = {};
     mdata.width = image.width;
     mdata.height = image.height;
     mdata.depth = 1;
     mdata.arraySize = 1;
     mdata.mipLevels = 1;
     mdata.format = image.format;
-    mdata.dimension = TEX_DIMENSION_TEXTURE2D;
+    mdata.dimension = DirectX::TEX_DIMENSION_TEXTURE2D;
 
     return SaveToDDSFile(&image, 1, mdata, flags, szFile);
 }
@@ -155,37 +155,37 @@ inline HRESULT __cdecl SaveToDDSFile(const Image& image, DDS_FLAGS flags, const 
 // Compatability helpers
 //=====================================================================================
 _Use_decl_annotations_
-inline HRESULT __cdecl GetMetadataFromTGAMemory(const void* pSource, size_t size, TexMetadata& metadata) noexcept
+inline HRESULT __cdecl GetMetadataFromTGAMemory(const void* pSource, size_t size, DirectX::TexMetadata& metadata) noexcept
 {
-    return GetMetadataFromTGAMemory(pSource, size, TGA_FLAGS_NONE, metadata);
+    return GetMetadataFromTGAMemory(pSource, size, DirectX::TGA_FLAGS_NONE, metadata);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl GetMetadataFromTGAFile(const wchar_t* szFile, TexMetadata& metadata) noexcept
+inline HRESULT __cdecl GetMetadataFromTGAFile(const wchar_t* szFile, DirectX::TexMetadata& metadata) noexcept
 {
-    return GetMetadataFromTGAFile(szFile, TGA_FLAGS_NONE, metadata);
+    return GetMetadataFromTGAFile(szFile, DirectX::TGA_FLAGS_NONE, metadata);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl LoadFromTGAMemory(const void* pSource, size_t size, TexMetadata* metadata, ScratchImage& image) noexcept
+inline HRESULT __cdecl LoadFromTGAMemory(const void* pSource, size_t size, DirectX::TexMetadata* metadata, DirectX::ScratchImage& image) noexcept
 {
-    return LoadFromTGAMemory(pSource, size, TGA_FLAGS_NONE, metadata, image);
+    return LoadFromTGAMemory(pSource, size, DirectX::TGA_FLAGS_NONE, metadata, image);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl LoadFromTGAFile(const wchar_t* szFile, TexMetadata* metadata, ScratchImage& image) noexcept
+inline HRESULT __cdecl LoadFromTGAFile(const wchar_t* szFile, DirectX::TexMetadata* metadata, DirectX::ScratchImage& image) noexcept
 {
-    return LoadFromTGAFile(szFile, TGA_FLAGS_NONE, metadata, image);
+    return LoadFromTGAFile(szFile, DirectX::TGA_FLAGS_NONE, metadata, image);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl SaveToTGAMemory(const Image& image, Blob& blob, const TexMetadata* metadata) noexcept
+inline HRESULT __cdecl SaveToTGAMemory(const DirectX::Image& image, DirectX::Blob& blob, const DirectX::TexMetadata* metadata) noexcept
 {
-    return SaveToTGAMemory(image, TGA_FLAGS_NONE, blob, metadata);
+    return SaveToTGAMemory(image, DirectX::TGA_FLAGS_NONE, blob, metadata);
 }
 
 _Use_decl_annotations_
-inline HRESULT __cdecl SaveToTGAFile(const Image& image, const wchar_t* szFile, const TexMetadata* metadata) noexcept
+inline HRESULT __cdecl SaveToTGAFile(const DirectX::Image& image, const wchar_t* szFile, const DirectX::TexMetadata* metadata) noexcept
 {
-    return SaveToTGAFile(image, TGA_FLAGS_NONE, szFile, metadata);
+    return SaveToTGAFile(image, DirectX::TGA_FLAGS_NONE, szFile, metadata);
 }

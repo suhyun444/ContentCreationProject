@@ -25,6 +25,7 @@ VertexShader::~VertexShader()
 
 bool VertexShader::Compile(ID3D11Device* device)
 {
+	//HRESULT result = D3DReadFileToBlob((WCHAR*)filename.c_str(), shaderBuffer.GetAddressOf());
 	//정점 쉐이더 컴파일
 	HRESULT result = D3DCompileFromFile(
 		filename.c_str(),

@@ -100,7 +100,7 @@ void Engine::DrawScene()
 	camera.BindBuffer(deviceContext.Get());
 
 
-	meshHandler.RenderBuffer(deviceContext.Get(), unitBuffer.Get());
+	meshHandler.RenderBuffer(deviceContext.Get(), unitBuffer.Get(),  !player.IsEnable());
 
 	swapChain->Present(1, 0);
 }
@@ -561,9 +561,8 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 	clear .SetPosition(0, 0, 0.0f);
-	clear.SetScale(1.0f, 1.0f, 1.0f);
+	clear.SetScale(13, 8, 1.0f);
 	clear.SetAnimationState("Clear.png");
-	collisionHandler.Add(&clear);
 	meshHandler.Add(&clear);
 	clear.SetIsEnable(false);
 
@@ -574,12 +573,10 @@ bool Engine::InitializeScene() {
 		return false;
 	}
 	dead.SetPosition(0, 0, 0.0f);
-	dead.SetScale(16, 9, 1);
+	dead.SetScale(13, 8, 1);
 	dead.SetAnimationState("GameOver.png");
-	//dead.SortingOrder(0);
-	collisionHandler.Add(&dead);
 	meshHandler.Add(&dead);
-	//dead.SetIsEnable(false);
+	dead.SetIsEnable(false);
 	player.clear = &clear;
 	player.gameOver = &dead;
 #pragma endregion

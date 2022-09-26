@@ -44,7 +44,6 @@ private:
 
 	Matrix4f projectionMatrix;
 
-	// 뷰 변환 관련 변수.
 	float yaw = 0.0f;			
 	float pitch = 0.0f;		
 

@@ -3,7 +3,7 @@ bool Compare(Mesh* mesh1, Mesh* mesh2)
 {
 	return mesh1->SortingOrder() < mesh2->SortingOrder();
 }
-void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer)
+void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext, ID3D11Buffer* unitBuffer, bool isEnding)
 {
 	Matrix4f unitInfo;
 	deviceContext->UpdateSubresource(unitBuffer, NULL, nullptr, &unitInfo, 0, 0);
@@ -11,6 +11,7 @@ void MeshHandler::RenderBuffer(ID3D11DeviceContext* deviceContext, ID3D11Buffer*
 	for (int i = 0; i < meshs.size(); i++)
 	{
 		if (!meshs[i]->IsEnable())continue;
+		if (isEnding && meshs[i]->SortingOrder() > 10)continue;
 		meshs[i]->SetIsLeft(deviceContext, unitBuffer);
 		meshs[i]->RenderBuffers(deviceContext);
 	}

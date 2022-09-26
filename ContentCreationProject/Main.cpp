@@ -1,4 +1,7 @@
 #include "Engine.h"
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d3dcompiler.lib")
+#pragma comment(lib,"DirectXTex.lib")
 //#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow)
@@ -8,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine,
 	engine.SetUpVariable(hInstance, 1280, 720, L"콘텐츠 제작 실무 컨텐츠");
 	if (engine.Initialize() == false)
 	{
-		MessageBox(nullptr, L"엔진 포기화 실패", L"오류", 0);
+		MessageBox(nullptr, L"엔진 초기화 실패", L"오류", 0);
 		exit(-1);
 	}
 	engine.Run();

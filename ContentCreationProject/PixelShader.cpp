@@ -25,6 +25,7 @@ PixelShader::~PixelShader()
 
 bool PixelShader::Compile(ID3D11Device* device)
 {
+    //HRESULT result = D3DReadFileToBlob((WCHAR*)filename.c_str(), shaderBuffer.GetAddressOf());
     // PS ÄÄÆÄÀÏ
     HRESULT result = D3DCompileFromFile(
         filename.c_str(),

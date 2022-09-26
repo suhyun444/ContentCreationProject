@@ -28,7 +28,7 @@ Player::Player()
 	headChecker.InitializeCollideCallback(std::bind(&Player::HeadCheck, this));
 	headChecker.SetCollisionScale(0.3f, 0.001f, 0.0f);
 	hitbox.SetScale(0.0f, 0.0f, 1.0f);
-	hitbox.SetCollisionScale(0.5f, 0.5f, 1.0f);
+	hitbox.SetCollisionScale(0.5f, 1.2f, 1.0f);
 	hitbox.SetIsEnable(false);
 	hitbox.SetIsTrigger(true);
 	hitbox.SetTag("PlayerAttack");
@@ -69,6 +69,7 @@ void Player::Collide(Mesh* mesh)
 	else if (mesh->Tag() == "Door")
 	{
 		isEnable = false;
+		clear->SetIsEnable(true);
 	}
 }
 
@@ -131,7 +132,7 @@ void Player::Update(float deltaTime)
 	}
 	Vector3f cameraPosition = Vector3f(position.x, cameraYPosition, -5.0f);
 	camera->SetPosition(cameraPosition);
-	hitbox.SetPosition(position.x + 0.1f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
+	hitbox.SetPosition(position.x + 0.2f * ((isLeft) ? -1 : 1), position.y - 0.4f, 0.0f);
 	groundChecker.SetPosition(Vector3f(position.x, position.y - scale.y / 2, 0.0f));
 	headChecker.SetPosition(Vector3f(position.x, position.y,0.0f));
 	for (int i = 0; i < 3; i++)

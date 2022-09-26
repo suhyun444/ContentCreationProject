@@ -6,6 +6,7 @@ using Microsoft::WRL::ComPtr;
 ID3D11ShaderResourceView* ResourceLoader::LoadTextureFromFile(ID3D11Device* device, std::wstring filename)
 {
 	filename = std::wstring(L"..//res//textures//") + filename;
+	//filename = std::wstring(L"textures//") + filename;
 	DirectX::ScratchImage image;
 	HRESULT result = GetScratchImage(filename, &image);
 

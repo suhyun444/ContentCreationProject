@@ -3,7 +3,9 @@
 bool TextureMappingShader::Compile(ID3D11Device* device, std::vector<std::wstring> textureFileNames)
 {
 	vertexShader = VertexShader(L"..//shaders//TextureMappingVS.hlsl", "main", "vs_5_0");
+	//vertexShader = VertexShader(L"shaders//TextureMappingVS.cso", "main", "vs_5_0");
 	pixelShader = PixelShader(L"..//shaders//TextureMappingPS.hlsl", "main", "ps_5_0");
+	//pixelShader = PixelShader(L"shaders//TextureMappingPS.cso", "main", "ps_5_0");
 	if (vertexShader.Compile(device) == false)
 	{
 		return false;
